@@ -20,6 +20,7 @@ export const LeftContainer = styled.div`
     display: flex;
     font-weight: 400;
     padding-left: 101px;
+    margin-top: 24px;
 
 `;
 
@@ -29,6 +30,7 @@ flex: 30%;
   justify-content: flex-end;
   padding-right: 50px;
   top: 20px;
+  margin-top: 23px;
 
 `;
 
@@ -89,27 +91,48 @@ export const NavbarLinkExtended = styled(Link)`
 `
 
 export const CartImg = styled.img`
-    top: 50px;
-    width: 35px;
-    height: 35px;
+    width: 20px;
+    height: 20px;
     left: 184;
-    margin: 10px;
+    margin-top: 10px;
+    margin-bottom: 27px;
+    margin-left: 22px;
+    margin-right: 101px;
 `
 
 export const OpenLinksButton = styled.button`
-    width: 50px;
-    height: 50px;
+    width: 38px;
+    height: 29px;
     top: 50px;
     left: 124px;
     font-size: x-large;
-    margin: 10px;
     border: none;
     color: black;
     cursor: pointer;
+    margin-top:5.5px;
+    margin-bottom: 22.5px;
+    font-size:18px;
+    font-weight: 500;
 `
 
+export const CurrencyDropDown = styled.div`
+    position: relative;
 
+`
 
 export const iconImage = styled.div`
     
+`
+
+export const DropdownContainer = styled.div`
+    width: 10px;
+`
+
+export const CurrencyLi = styled.li`
+    width: 114px;
+    font-family: Raleway;
+    font-size: 18px;
+    height: 45px;
+    font-weight: 500;
+
 `

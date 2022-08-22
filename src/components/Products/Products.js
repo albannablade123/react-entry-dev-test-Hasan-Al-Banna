@@ -9,12 +9,20 @@ export default class Products extends Component {
             <ProductsContainer>
             <CategoryTitle>{this.props.category}</CategoryTitle>
             <GridContainer>
-              <ProductCard/>
-              <ProductCard/>
-              <ProductCard/>
-              <ProductCard/>
-              <ProductCard/>
-              <ProductCard/>
+              {
+                this.props.products.map((product,index)=>(
+                  <ProductCard 
+                  key={index} 
+                  name={product.name} 
+                  image={product.displayImage} 
+                  price={product.price}
+                  inStock={product.inStock}
+                  />
+                )
+     
+                  // 
+                )
+              }
             </GridContainer>
             </ProductsContainer>
     )

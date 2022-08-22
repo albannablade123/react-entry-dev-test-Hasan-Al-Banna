@@ -61,9 +61,38 @@ export const Card = styled.div`
     height: 400px;
     margin: 10px;
     padding: 16px;
+    position: relative;
 `
 
 export const CardImage = styled.img`
     width: 100%;
     height: 75%;
 `
+
+export const StockTextContainer = styled.div`
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+`
+
+export const StockText = styled.h2`
+    font-family: Raleway;
+    font-weight: 400;
+    font-size: 24px;
+`
+
+export const AddToCartCircularButton = styled.button`
+    border-radius: 100%;
+    position: absolute;
+    top: 66%;
+    left: 75%;
+    background-color: #5ECE7B;
+    height: 52px;
+    width: 52px;
+    box-shadow: '0px 4px 35px #E5E5E5';
+    border-width: 0px;
+
+`
+
+

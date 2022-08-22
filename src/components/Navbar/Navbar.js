@@ -11,6 +11,7 @@ import {
   CartImg,
   OpenLinksButton,
 } from "../../styles/Navbar.style.js";
+import Dropdown from "./Dropdown.js";
 
 import empty_cart from "../../assets/empty_cart.png";
 
@@ -25,12 +26,6 @@ export class Navbar extends PureComponent {
     };
   }
 
-  componentDidUpdate(previousProps,prevState) {
-    if (previousProps.categories !== this.state.categories) {
-      this.props.fetchCategories();
-    }
-}
-
   onMouseEnter(event) {
     if (window.innerWidth < 956) {
       console.log("based?");
@@ -40,18 +35,20 @@ export class Navbar extends PureComponent {
 
   render() {
     return (
-      
       <NavbarContainer extendNavbar={this.state.extendNavbar}>
-        {" "}
         <NavbarInnerContainer>
           <LeftContainer>
             <NavbarLinkContainer selectedCategory={this.state.selectedCategory}>
-                {
-                this.state.categories.map((item, index) => (
-                  <NavbarLink to="/" id="item" key={index}>
-                    {item}
-                  </NavbarLink>
-                ))}
+              {this.state.categories.map((item, index) => (
+                <NavbarLink
+                  to="/"
+                  id="item"
+                  key={index}
+                  onClick={() => this.props.onClick(item)}
+                >
+                  {item}
+                </NavbarLink>
+              ))}
             </NavbarLinkContainer>
             <img src="assets/a-logo.png" alt="" />
           </LeftContainer>
@@ -62,16 +59,20 @@ export class Navbar extends PureComponent {
                 this.setState({ extendNavbar: !this.state.extendNavbar })
               }
             >
-              {/* (val) => this.setState({ extendNavbar: !val }) */}
-
               {this.state.extendNavbar === true ? (
                 <>
-                  {" "}
-                  <NavbarLinkContainer>&#36; ;</NavbarLinkContainer>{" "}
+                  <NavbarLinkContainer>
+                    &#36;{" "}
+                    <span class="material-symbols-outlined" style={{width:'2px'}}>expand_more</span>
+                  </NavbarLinkContainer>
                 </>
               ) : (
                 <>
-                  <NavbarLinkContainer>&#36; &#8801;</NavbarLinkContainer>
+                  <NavbarLinkContainer>
+                    &#36;{" "}
+                    <span class="material-symbols-outlined">expand_less</span>
+                  </NavbarLinkContainer>
+                  <Dropdown />
                 </>
               )}
               {/* && {dropdown} */}
