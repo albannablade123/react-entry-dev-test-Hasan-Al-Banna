@@ -72,8 +72,19 @@ export const ProductCartSubtitle = styled.div`
 `;
 
 export const ImageCartPreview = styled.img`
-    height: 288px;
-    width: 200px;
-    margin-top: 24px;
-    margin-left: 24px;
+  height: 288px;
+  width: 200px;
+  margin-top: 24px;
+  margin-left: 24px;
+`;
+
+export const CartDropdownContainer = styled.div`
+  width: 325px;
+  height: 677px;
+  border-radius: 0px;
+  padding: 32px, 16px, 32px, 16px;
+  background-color: black;
+  left: 1043px;
+  float: left;
+  display: inline-block
 `;

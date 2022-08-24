@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import { CategoryTitle, ProductsContainer, GridContainer } from '../../styles/Products.style.js';
 import ProductCard from './Product/ProductCard.js';
+import { Link, useLocation } from 'react-router-dom';
 
 export default class Products extends Component {
   render() {
@@ -11,16 +12,21 @@ export default class Products extends Component {
             <GridContainer>
               {
                 this.props.products.map((product,index)=>(
+                  <Link to={`product/${product.id}`} key={product.id}>
                   <ProductCard 
-                  key={index} 
+                  Component={Link}
+                  to={`/product/${product.id}`}
+                  key={product.id} 
                   name={product.name} 
                   image={product.displayImage} 
                   price={product.price}
                   inStock={product.inStock}
+                  currency={this.props.currency}
                   />
+                  
+                  </Link>
+                  
                 )
-     
-                  // 
                 )
               }
             </GridContainer>

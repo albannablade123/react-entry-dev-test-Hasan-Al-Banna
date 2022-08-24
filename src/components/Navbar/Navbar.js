@@ -12,6 +12,7 @@ import {
   OpenLinksButton,
 } from "../../styles/Navbar.style.js";
 import Dropdown from "./Dropdown.js";
+import CheckoutDropdown from "../Checkout/CheckoutDropdown.js";
 
 import empty_cart from "../../assets/empty_cart.png";
 
@@ -19,9 +20,9 @@ export class Navbar extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      extendNavbar: true,
+      extendNavbar: false,
+      extendCartNavbar: false,
       isActive: 1,
-      dropdown: false,
       categories: this.props.categories || ["hex"],
     };
   }
@@ -32,22 +33,36 @@ export class Navbar extends PureComponent {
     }
     this.setState({ isSelected: !this.state.isSelected });
   }
-
+  
   render() {
     return (
+    
       <NavbarContainer extendNavbar={this.state.extendNavbar}>
         <NavbarInnerContainer>
           <LeftContainer>
             <NavbarLinkContainer selectedCategory={this.state.selectedCategory}>
               {this.state.categories.map((item, index) => (
-                <NavbarLink
-                  to="/"
-                  id="item"
-                  key={index}
-                  onClick={() => this.props.onClick(item)}
+                <div
+                  style={{
+                    borderBottomColor:
+                      item === this.props.category ? "#5ECE7B" : "white",
+                      borderBottom:  item === this.props.category ? "2px solid #5ECE7B" : null
+                      
+          
+                  }}
                 >
-                  {item}
-                </NavbarLink>
+                  <NavbarLink
+                    to="/"
+                    id="item"
+                    key={index}
+                    onClick={() => this.props.onClick(item)}
+                    style={{
+                      color: item === this.props.category ? "#5ECE7B" : "black",
+                    }}
+                  >
+                    {item}
+                  </NavbarLink>
+                </div>
               ))}
             </NavbarLinkContainer>
             <img src="assets/a-logo.png" alt="" />
@@ -56,33 +71,54 @@ export class Navbar extends PureComponent {
           <RightContainer>
             <OpenLinksButton
               onClick={() =>
-                this.setState({ extendNavbar: !this.state.extendNavbar })
+                this.setState({
+                  extendNavbar: !this.state.extendNavbar,
+                  extendCartNavbar: false,
+                })
               }
             >
-              {this.state.extendNavbar === true ? (
+              {!this.state.extendNavbar ? (
                 <>
                   <NavbarLinkContainer>
-                    &#36;{" "}
-                    <span class="material-symbols-outlined" style={{width:'2px'}}>expand_more</span>
+                    {this.props.currency.symbol}
+                    <span
+                      class="material-symbols-outlined"
+                      style={{ width: "2px" }}
+                    >
+                      expand_more
+                    </span>
                   </NavbarLinkContainer>
                 </>
               ) : (
                 <>
                   <NavbarLinkContainer>
-                    &#36;{" "}
+                  {this.props.currency.symbol}
                     <span class="material-symbols-outlined">expand_less</span>
                   </NavbarLinkContainer>
-                  <Dropdown />
+                  <Dropdown handleCurrencyChange={this.props.handleCurrencyChange} currencies={this.props.currencies}/>
                 </>
               )}
-              {/* && {dropdown} */}
             </OpenLinksButton>
-            <CartImg src={empty_cart}></CartImg>
+
+            <OpenLinksButton
+              onClick={() =>
+                this.setState({
+                  extendCartNavbar: !this.state.extendCartNavbar,
+                  extendNavbar: false,
+                })
+              }
+            >
+              {!this.state.extendCartNavbar ? (
+                <CartImg src={empty_cart}></CartImg>
+              ) : (
+                <div>
+                  <CartImg src={empty_cart}></CartImg>
+                  <CheckoutDropdown />
+                </div>
+              )}
+            </OpenLinksButton>
           </RightContainer>
         </NavbarInnerContainer>
-        {this.state.extendNavbar && (
-          <NavbarExtendedContainer></NavbarExtendedContainer>
-        )}
       </NavbarContainer>
     );
   }

@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 
 export const NavbarContainer = styled.nav`
-    width: 100%;
+    width: 1440px;
     /* height: ${(props) => (props.extendNavbar ? "100vh" : "80px")}; */
     height: 80px;
     background-color: white;
@@ -94,10 +94,6 @@ export const CartImg = styled.img`
     width: 20px;
     height: 20px;
     left: 184;
-    margin-top: 10px;
-    margin-bottom: 27px;
-    margin-left: 22px;
-    margin-right: 101px;
 `
 
 export const OpenLinksButton = styled.button`
@@ -126,6 +122,7 @@ export const iconImage = styled.div`
 
 export const DropdownContainer = styled.div`
     width: 10px;
+    float: left;
 `
 
 export const CurrencyLi = styled.li`

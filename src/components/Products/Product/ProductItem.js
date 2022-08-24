@@ -14,32 +14,149 @@ import {
   ButtonColor1,
   ButtonColor2,
   ButtonColor3,
-  PriceText
+  PriceText,
 } from "../../../styles/ProductItem.style";
+import { useParams } from "react-router-dom";
+import { GET_PRODUCT_BY_ID } from "../../../GraphQl/Queries";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  HttpLink,
+  from,
+} from "@apollo/client";
+import { useQuery, gql } from "@apollo/client";
 
-export default class ProductItem extends Component {
+import { onError } from "@apollo/client/link/error";
+
+function withParams(Component) {
+  return (props) => <Component {...props} params={useParams()} />;
+}
+
+const errorLink = onError(({ graphqlErrors, networkError }) => {
+  if (graphqlErrors) {
+    graphqlErrors.map(({ message, location, path }) => {
+      alert(`Graphql errors ${message}`);
+    });
+  }
+});
+
+const link = from([errorLink, new HttpLink({ uri: "http://localhost:4000/" })]);
+
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  link: link,
+});
+
+class ProductItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      displayedImage: "https://i.scdn.co/image/ab67616d0000b273d57c54675dee2618421c98c4",
+      product: {
+        id: "",
+        name: "",
+        description: "",
+        gallery: [],
+        prices: [],
+        attributes: [],
+        displayedImage: "",
+      },
     };
   }
 
-  
+  componentDidMount() {
+    let { id } = this.props.params;
+
+    const query = gql`
+  query{
+    product(id: "${id}"){
+       id
+      name
+      inStock
+      gallery
+      description
+      category
+      attributes {
+        id
+        name
+        type
+        items{
+          displayValue
+          value
+          id
+        }
+      }
+      brand
+      prices{
+        currency {
+          label
+          symbol
+        }
+        amount
+      }
+      
+    }
+  }
+  `;
+
+    client
+      .query({
+        query: query,
+        variables: { id: id },
+      })
+      .then((result) =>
+        this.setState({
+          product: {
+            id: result.data.product.id,
+            name: result.data.product.name,
+            prices: result.data.product.prices,
+            gallery: result.data.product.gallery,
+            displayedImage: result.data.product.gallery[0],
+            description: result.data.product.description,
+            attributes: result.data.product.attributes,
+            brand: result.data.product.brand,
+          },
+        })
+      );
+  }
+
+  handleChangeDisplayImage = (newImage) => {
+    this.setState({
+      product: {
+        ...this.state.product,
+        displayedImage: newImage,
+      },
+    });
+  };
+
+  getPriceValue() {
+    let priceValue = this.state?.product?.prices?.find(o => o.currency.symbol === this.props.currency.symbol)
+    return priceValue?.amount
+  }
 
   render() {
     return (
+      
       <ProductItemContainer>
         <ImageGrid>
-          <ImagePreview src="https://i.scdn.co/image/ab67616d0000b273d57c54675dee2618421c98c4" />
-          <ImagePreview src="https://i.scdn.co/image/ab67616d0000b273d57c54675dee2618421c98c4" />
-          <ImagePreview src="https://i.scdn.co/image/ab67616d0000b273d57c54675dee2618421c98c4" />
-          <ImagePreview src="https://i.scdn.co/image/ab67616d0000b273d57c54675dee2618421c98c4" />
+          {this.state.product.gallery.map((item, index) => (
+            <ImagePreview
+              src={item}
+              onClick={() => {
+                this.handleChangeDisplayImage(item,index);
+              }}
+            />
+          ))}
         </ImageGrid>
-        <ImageContainer src={this.state.displayedImage} />
+        <ImageContainer src={this.state.product.displayedImage} />
         <ProductItemContent>
-          <ProductTitle>Apollo</ProductTitle>
+          <ProductTitle>{this.state.product.name}</ProductTitle>
           <ProductSubtitle>Running Short</ProductSubtitle>
+          {
+            this.state.product.attributes.map((attributeItem) => {
+              console.log(attributeItem)
+            })
+          }
           <ProductSpecificationTitle>Size:</ProductSpecificationTitle>
           <SelectionContainer>
             <ButtonSize>XS</ButtonSize>
@@ -49,21 +166,18 @@ export default class ProductItem extends Component {
           </SelectionContainer>
           <ProductSpecificationTitle>Color:</ProductSpecificationTitle>
           <SelectionContainer>
-            <ButtonColor1/>
-            <ButtonColor2/>
-            <ButtonColor3/>
+            <ButtonColor1 />
+            <ButtonColor2 />
+            <ButtonColor3 />
           </SelectionContainer>
           <ProductSpecificationTitle>Price:</ProductSpecificationTitle>
-          <PriceText>50.00$</PriceText>
+          <PriceText>{this.getPriceValue()}{this.props.currency.symbol}</PriceText>
           <CartButton>Add To Cart</CartButton>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi
-            quam facilis labore ad maxime libero temporibus quae dignissimos
-            numquam molestiae placeat suscipit beatae aut voluptas, ipsam
-            exercitationem dolorum, sed qui.
-          </p>
+          {this.state.product.description}
         </ProductItemContent>
       </ProductItemContainer>
     );
   }
 }
+
+export default withParams(ProductItem);

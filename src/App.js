@@ -6,7 +6,13 @@ import Products from "./components/Products/Products";
 import ProductItem from "./components/Products/Product/ProductItem";
 import Checkout from "./components/Checkout/Checkout";
 import { gql } from "@apollo/client";
-import { GET_CATEGORIES, GET_PRODUCTS } from "./GraphQl/Queries";
+import {
+  GET_CATEGORIES,
+  GET_ALL_PRODUCTS,
+  GET_TECH_PRODUCTS,
+  GET_CLOTHES_PRODUCTS,
+  GET_CURRENCIES,
+} from "./GraphQl/Queries";
 
 import {
   ApolloClient,
@@ -45,6 +51,11 @@ class App extends Component {
       isLoading: true,
       products: [],
       cart: [],
+      currencies: [],
+      selectedCurrency: {
+        label: "",
+        symbol: "",
+      },
     };
   }
 
@@ -66,9 +77,7 @@ class App extends Component {
             category: tempCategoriesArray[0],
           }))
         )
-        .then(() =>
-            this.getProductByCategories()
-              );
+        .then(() => this.getProductByCategories());
     } catch (error) {
       console.log(error);
     }
@@ -78,37 +87,33 @@ class App extends Component {
     const tempProductsArray = [];
     try {
       client
-            .query({
-              query: GET_PRODUCTS,
+        .query({
+          query: GET_ALL_PRODUCTS,
+        })
+        .then((result) =>
+          result.data.category.products.map((product) =>
+            tempProductsArray.push({
+              id: product.id,
+              name: product.name,
+              inStock: product.inStock,
+              category: product.category,
+              price: product.prices,
+              displayImage: product.gallery[0],
             })
-            .then((result) =>
-              result.data.category.products.map((product) =>
-                tempProductsArray
-                  .push({
-                    id: product.id,
-                    name: product.name,
-                    inStock: product.inStock,
-                    category: product.category,
-                    price: product.prices[0].amount,
-                    displayImage: product.gallery[0],
-                  })))
-                  .then(() =>
-                    this.setState((prevState) => ({
-                      ...prevState,
-                      products: tempProductsArray,
-                    }))
-                  )
+          )
+        )
+        .then(() =>
+          this.setState((prevState) => ({
+            ...prevState,
+            products: tempProductsArray,
+          }))
+        );
     } catch (error) {
       console.log(error);
     }
   }
 
-  handleClick = (newCategory) => {
-    this.setState({
-      ...this.state,
-      category: newCategory,
-    });
-  };
+
 
   setLoading = () => {
     this.setState({
@@ -117,21 +122,100 @@ class App extends Component {
     });
   };
 
+  fetchCurrencies() {
+    let tempCurrencyArray = [];
+    try {
+      client
+      .query({
+        query: GET_CURRENCIES,
+      })
+      .then((result) =>
+        result.data.currencies.map((currency) =>
+          tempCurrencyArray.push({
+            label: currency.label,
+            symbol: currency.symbol,
+          })
+        )
+      )
+      .then(() =>
+        this.setState((prevState) => ({
+          ...prevState,
+          currencies: tempCurrencyArray,
+          selectedCurrency: {
+            label: tempCurrencyArray[0].label,
+            symbol: tempCurrencyArray[0].symbol,
+          },
+        }))
+      );
+    } catch (error) {
+      console.log(error)
+      
+    }
+    
+  }
+
   componentDidUpdate(previousProps, prevState) {
-    console.log(this.state);
     if (prevState.category !== this.state.category) {
-      //this.getCategories();
+      const tempProductsArray = [];
+      let queryTest;
+
+      if (this.state.category === "all") {
+        queryTest = GET_ALL_PRODUCTS;
+      } else if (this.state.category === "clothes") {
+        queryTest = GET_CLOTHES_PRODUCTS;
+      } else {
+        queryTest = GET_TECH_PRODUCTS;
+      }
+      client
+        .query({
+          query: queryTest,
+        })
+        .then((result) =>
+          result.data.category.products.map((product) =>
+            tempProductsArray.push({
+              id: product.id,
+              name: product.name,
+              inStock: product.inStock,
+              category: product.category,
+              price: product.prices,
+              displayImage: product.gallery[0],
+            })
+          )
+        )
+        .then(() =>
+          this.setState((prevState) => ({
+            ...prevState,
+            products: tempProductsArray,
+          }))
+        );
     }
   }
 
   async componentDidMount() {
-    console.log(this.props);
     if (this.state.categories.length === 0 && this.state.isLoading === true) {
       this.getCategories();
+      this.fetchCurrencies();
     }
   }
 
+
+  handleClick = (newCategory) => {
+    this.setState({
+      ...this.state,
+      category: newCategory,
+    });
+  };
+
+  handleCurrencyChange = (newCurrency) => {
+    this.setState({
+      ...this.state,
+      selectedCurrency: this.state.currencies[newCurrency],
+    });
+
+  }
+
   render() {
+    if (!this.state.categories) return <h1>Loading....</h1>;
     return (
       <ApolloProvider client={client}>
         <Router>
@@ -141,6 +225,10 @@ class App extends Component {
                 fetchCategories={this.fetchCategories}
                 categories={this.state.categories}
                 onClick={this.handleClick}
+                category={this.state.category}
+                currencies={this.state.currencies}
+                currency={this.state.selectedCurrency}
+                handleCurrencyChange={this.handleCurrencyChange}
               />
             ) : null}
 
@@ -152,13 +240,14 @@ class App extends Component {
                   <Products
                     category={this.state.category}
                     products={this.state.products}
+                    currency={this.state.selectedCurrency}
                   />
                 }
               />
               <Route
                 exact
-                path="/product"
-                element={<ProductItem category={this.state.category} />}
+                path="/product/:id"
+                element={<ProductItem category={this.state.category} currency={this.state.selectedCurrency} />}
               />
               <Route
                 exact
