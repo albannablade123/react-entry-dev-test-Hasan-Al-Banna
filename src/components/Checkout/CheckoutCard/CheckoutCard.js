@@ -14,7 +14,7 @@ import {
   ProductSpecificationTitle,
   CartButton,
   SelectionContainer,
-  ButtonSize,
+  ButtonAttribute,
   ButtonColor1,
   ButtonColor2,
   ButtonColor3,
@@ -31,10 +31,10 @@ export default class CheckoutCard extends Component {
           <PriceText>50.00$</PriceText>
           <ProductSpecificationTitle>Size:</ProductSpecificationTitle>
           <SelectionContainer>
-            <ButtonSize>XS</ButtonSize>
-            <ButtonSize>S</ButtonSize>
-            <ButtonSize>M</ButtonSize>
-            <ButtonSize>L</ButtonSize>
+            <ButtonAttribute>XS</ButtonAttribute>
+            <ButtonAttribute>S</ButtonAttribute>
+            <ButtonAttribute>M</ButtonAttribute>
+            <ButtonAttribute>L</ButtonAttribute>
           </SelectionContainer>
           <ProductSpecificationTitle>Color:</ProductSpecificationTitle>
           <SelectionContainer>

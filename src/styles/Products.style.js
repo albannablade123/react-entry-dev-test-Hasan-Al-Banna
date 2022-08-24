@@ -22,6 +22,7 @@ export const ProductsContainer = styled.div`
 
 `
 
+
 export const GridContainer = styled.div`
     display: grid;
     grid-template-columns: 25em 25rem 25rem;

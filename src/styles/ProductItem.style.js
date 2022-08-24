@@ -5,10 +5,23 @@ export const ProductItemContainer = styled.div`
     padding: 60px 100px;
     display: flex;
 `
+export const ProductDescriptionContainer = styled.div`
+    width: 292px;
+    overflow: auto;
+    font-family: Roboto;
+    font-size: 16px;
+
+    line-height: 25.59px;
+    text-align: justify;
+    height: 130px;
+
+`
 
 export const ImageGrid = styled.div`
     width: 80px;
     color: white;
+    overflow: auto;
+    height: 550px;
 `
 
 export const ImagePreview = styled.img`
@@ -23,6 +36,7 @@ export const ImageContainer = styled.img`
     margin-bottom: 40px;
     margin-left: 40px;
     margin-right: 100px;
+  
 `
 
 export const ProductItemContent = styled.div`
@@ -68,6 +82,7 @@ export const CartButton = styled.button`
     font-family: Raleway;
     color: white;
     vertical-align: center;
+    margin-bottom: 40px;
     
 `
 
@@ -76,7 +91,7 @@ export const SelectionContainer = styled.div`
     margin-bottom: 24px;
 `
 
-export const ButtonSize = styled.button`
+export const ButtonAttribute = styled.button`
     width: 63px;
     height: 45px;
     font-family: Source Sans Pro;
@@ -85,6 +100,8 @@ export const ButtonSize = styled.button`
     margin-right: 12px;
     background-color: white;
     border-width: 1px;
+    border-color: #1D1F22;
+    cursor:pointer;
 `
 
 export const ButtonColor1 = styled.button`
@@ -95,7 +112,7 @@ export const ButtonColor1 = styled.button`
     font-size: 16px;
     margin-right: 12px;
     border: transparent;
-    background-color: #D3D2D5;
+    cursor: pointer;
 `
 
 export const ButtonColor2 = styled.button`

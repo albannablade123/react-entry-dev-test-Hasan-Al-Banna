@@ -113,8 +113,6 @@ class App extends Component {
     }
   }
 
-
-
   setLoading = () => {
     this.setState({
       ...this.state,
@@ -126,32 +124,30 @@ class App extends Component {
     let tempCurrencyArray = [];
     try {
       client
-      .query({
-        query: GET_CURRENCIES,
-      })
-      .then((result) =>
-        result.data.currencies.map((currency) =>
-          tempCurrencyArray.push({
-            label: currency.label,
-            symbol: currency.symbol,
-          })
+        .query({
+          query: GET_CURRENCIES,
+        })
+        .then((result) =>
+          result.data.currencies.map((currency) =>
+            tempCurrencyArray.push({
+              label: currency.label,
+              symbol: currency.symbol,
+            })
+          )
         )
-      )
-      .then(() =>
-        this.setState((prevState) => ({
-          ...prevState,
-          currencies: tempCurrencyArray,
-          selectedCurrency: {
-            label: tempCurrencyArray[0].label,
-            symbol: tempCurrencyArray[0].symbol,
-          },
-        }))
-      );
+        .then(() =>
+          this.setState((prevState) => ({
+            ...prevState,
+            currencies: tempCurrencyArray,
+            selectedCurrency: {
+              label: tempCurrencyArray[0].label,
+              symbol: tempCurrencyArray[0].symbol,
+            },
+          }))
+        );
     } catch (error) {
-      console.log(error)
-      
+      console.log(error);
     }
-    
   }
 
   componentDidUpdate(previousProps, prevState) {
@@ -198,7 +194,6 @@ class App extends Component {
     }
   }
 
-
   handleClick = (newCategory) => {
     this.setState({
       ...this.state,
@@ -211,8 +206,51 @@ class App extends Component {
       ...this.state,
       selectedCurrency: this.state.currencies[newCurrency],
     });
+  };
 
-  }
+  handleAddToCart = (newProduct) => {
+    window.confirm(`Add ${newProduct.name} to cart?`)
+    const index = this.state.cart.findIndex(element => {
+
+      
+      if (element.id === newProduct.id) {
+        return true;
+      }
+      return false;
+    });
+
+    if (index >= 0){
+      let tempProductArray = this.state.cart
+      let prevCount = this.state.cart[index].quantity
+      tempProductArray = tempProductArray.map(obj => {
+        if (obj.id === newProduct.id ) {
+          return {...obj, quantity: prevCount + 1};
+        }
+
+        return obj;
+      });
+      
+      this.setState({
+        ...this.state,
+        cart: tempProductArray,
+      });
+     
+    }
+    else{
+      newProduct = {
+        ...newProduct,
+        quantity: 1
+      }
+      this.setState(prevState => ({
+        cart: [...prevState.cart, newProduct]
+      }))
+
+
+    }
+
+    
+
+  };
 
   render() {
     if (!this.state.categories) return <h1>Loading....</h1>;
@@ -247,12 +285,20 @@ class App extends Component {
               <Route
                 exact
                 path="/product/:id"
-                element={<ProductItem category={this.state.category} currency={this.state.selectedCurrency} />}
+                element={
+                  <ProductItem
+                    category={this.state.category}
+                    currency={this.state.selectedCurrency}
+                    handleAddToCart={this.handleAddToCart}
+                  />
+                }
               />
               <Route
                 exact
                 path="/checkout"
-                element={<Checkout category={this.state.category} />}
+                element={<Checkout category={this.state.category} 
+                cart={this.state.cart}  
+                currency={this.state.selectedCurrency}/>}
               />
             </Routes>
           </div>

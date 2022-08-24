@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom';
 
 
 export const NavbarContainer = styled.nav`
-    width: 1440px;
     /* height: ${(props) => (props.extendNavbar ? "100vh" : "80px")}; */
     height: 80px;
     background-color: white;

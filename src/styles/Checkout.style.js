@@ -86,5 +86,94 @@ export const CartDropdownContainer = styled.div`
   background-color: black;
   left: 1043px;
   float: left;
-  display: inline-block
+  display: inline-block;
 `;
+
+export const CartItemsContainer = styled.div`
+  background-color: white;
+  width: 293px;
+  height: 420px;
+  align-items: center;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
+export const CartContentContainer = styled.div`
+  background-color: white;
+  width: 293px;
+  height: 538px;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
+export const CartDropdownTitle = styled.h2`
+  font-weight: 700;
+  font-size: 16px;
+  text-align: left;
+  margin-bottom: 32px;
+
+`;
+
+export const CartDropdownCard = styled.div`
+  height: 190px;
+  display: flex;
+  margin-bottom: 40px;
+`
+
+export const CartCardLeftContainer = styled.div`
+  background-color: blue;
+  width: 63%;
+`
+
+export const CartProductTitle = styled.h1`
+  font-weight: 300;
+  font-size: 16px;
+  font-family: Raleway;
+  text-align: left;
+`
+
+export const CartProductPrice = styled.h1`
+  font-weight: 500;
+  font-size: 16px;
+  font-family: Raleway;
+  text-align: left;
+`
+export const CountDropdownContainer = styled.div`
+  width: 45px;
+  height: 190px;
+`;
+
+export const CounterDropdownText = styled.h2`
+  text-align: center;
+  margin-bottom: 2.3em;
+  margin-top: 2.3em;
+  font-weight: 500;
+  font-size: 24px;
+`;
+
+export const CountDropdownButton = styled.button`
+  width: 24px;
+  height: 24px;
+  background-color: white;
+  border-width: 1px;
+  margin-bottom: auto;
+`;
+
+export const ProductDropdownImage = styled.img`
+  width: 121px;
+  height: 190px;
+`
+
+export const DropdownButtonContainer = styled.div`
+  display: flex;
+  margin: 16.5px 32px;
+`
+
+export const DropdownButton = styled.button`
+  width: 140px;
+  height: 40px;
+  border-radius: 0px;
+  font-weight: 600;
+  font-family: Raleway;
+`
