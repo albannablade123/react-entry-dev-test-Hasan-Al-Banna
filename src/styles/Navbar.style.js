@@ -11,6 +11,18 @@ export const NavbarContainer = styled.nav`
     
 `;
 
+export const Background = styled.div`
+    height: 1475px;
+    width: 1440px;
+    left: 0%;
+    position: absolute;
+    backdrop-filter: blur(8px);
+    background: #39374838 22%;
+    z-index: 100;
+;
+
+`
+
 export const LeftContainer = styled.div`
     font-family: Raleway;
     flex: 70%;
@@ -57,6 +69,7 @@ export const NavbarLinkContainer = styled.div`
     top: 24px;
     border-radius: 0px;
     border-bottom: 1px;
+
 
 `
 
@@ -108,6 +121,7 @@ export const OpenLinksButton = styled.button`
     margin-bottom: 22.5px;
     font-size:18px;
     font-weight: 500;
+    background-color: white;
 `
 
 export const CurrencyDropDown = styled.div`

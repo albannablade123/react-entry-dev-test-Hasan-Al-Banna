@@ -7,6 +7,7 @@ import {
   NavbarInnerContainer,
   NavbarExtendedContainer,
   NavbarLinkContainer,
+  Background,
   NavbarLink,
   CartImg,
   OpenLinksButton,
@@ -29,14 +30,13 @@ export class Navbar extends PureComponent {
 
   onMouseEnter(event) {
     if (window.innerWidth < 956) {
-      console.log("based?");
+      // console.log("based?");
     }
     this.setState({ isSelected: !this.state.isSelected });
   }
-  
+
   render() {
     return (
-    
       <NavbarContainer extendNavbar={this.state.extendNavbar}>
         <NavbarInnerContainer>
           <LeftContainer>
@@ -46,9 +46,8 @@ export class Navbar extends PureComponent {
                   style={{
                     borderBottomColor:
                       item === this.props.category ? "#5ECE7B" : "white",
-                      borderBottom:  item === this.props.category ? "2px solid #5ECE7B" : null
-                      
-          
+                    borderBottom:
+                      item === this.props.category ? "2px solid #5ECE7B" : null,
                   }}
                 >
                   <NavbarLink
@@ -92,10 +91,13 @@ export class Navbar extends PureComponent {
               ) : (
                 <>
                   <NavbarLinkContainer>
-                  {this.props.currency.symbol}
+                    {this.props.currency.symbol}
                     <span class="material-symbols-outlined">expand_less</span>
                   </NavbarLinkContainer>
-                  <Dropdown handleCurrencyChange={this.props.handleCurrencyChange} currencies={this.props.currencies}/>
+                    <Dropdown
+                      handleCurrencyChange={this.props.handleCurrencyChange}
+                      currencies={this.props.currencies}
+                    />
                 </>
               )}
             </OpenLinksButton>
@@ -113,7 +115,14 @@ export class Navbar extends PureComponent {
               ) : (
                 <div>
                   <CartImg src={empty_cart}></CartImg>
-                  <CheckoutDropdown />
+                  
+                  <Background>
+                  <CheckoutDropdown
+                    currency={this.props.currency}
+                    cart={this.props.cart}
+                  />
+
+                  </Background>
                 </div>
               )}
             </OpenLinksButton>

@@ -12,16 +12,23 @@ import {
 import CheckoutItem from "./CheckoutItem";
 export default class CheckoutDropdown extends Component {
   render() {
+    console.log(this.props)
     return (
       <CartDropdownContainer>
         <CartContentContainer>
           <div style={{ display: "flex" }}>
-            <CartDropdownTitle>My Bag</CartDropdownTitle>
+            <CartDropdownTitle>My Bag, </CartDropdownTitle>
+            <CartDropdownTitle style={{ fontWeight: "300" }} >{this.props.cart.length} items </CartDropdownTitle>
           </div>
 
           <CartItemsContainer>
-            <CheckoutItem />
-            <CheckoutItem />
+            {
+              this.props.cart.map((item,index)=>(
+                <CheckoutItem key={index} cartItem={item} currency={this.props.currency}/>
+              )
+             
+              )
+            }
           </CartItemsContainer>
         </CartContentContainer>
         <DropdownButtonContainer>

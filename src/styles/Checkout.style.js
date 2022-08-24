@@ -83,10 +83,14 @@ export const CartDropdownContainer = styled.div`
   height: 677px;
   border-radius: 0px;
   padding: 32px, 16px, 32px, 16px;
-  background-color: black;
+  background-color: white;
   left: 1043px;
   float: left;
   display: inline-block;
+  position:absolute;
+  top:0%;
+  z-index: 100;
+
 `;
 
 export const CartItemsContainer = styled.div`
@@ -97,6 +101,7 @@ export const CartItemsContainer = styled.div`
   text-align: center;
   margin-left: auto;
   margin-right: auto;
+  overflow: overlay;
 `;
 
 export const CartContentContainer = styled.div`
@@ -119,10 +124,11 @@ export const CartDropdownCard = styled.div`
   height: 190px;
   display: flex;
   margin-bottom: 40px;
+  overflow: overlay;
 `
 
 export const CartCardLeftContainer = styled.div`
-  background-color: blue;
+  background-color: white;
   width: 63%;
 `
 
@@ -176,4 +182,43 @@ export const DropdownButton = styled.button`
   border-radius: 0px;
   font-weight: 600;
   font-family: Raleway;
+`
+
+export const ProductSpecificationTitle = styled.div`
+    font-family: Raleway;
+    font-size: 10px;
+    line-height: 77%;
+    font-weight: 400;
+    color: #1D1F22;
+    margin-bottom: 8px;
+    text-align: left;
+`
+
+export const SelectionContainer = styled.div`
+    display: flex;
+    margin-bottom: 8px;
+`
+
+export const ButtonAttribute = styled.button`
+    width: 24px;
+    height: 24px;
+    font-family: Source Sans Pro;
+    font-weight: 400;
+    font-size: 14px;
+    margin-right: 8px;
+    background-color: white;
+    border-width: 1px;
+    border-color: #1D1F22;
+    cursor:pointer;
+
+`
+
+export const ButtonColor1 = styled.button`
+    width: 14px;
+    height: 14px;
+    font-family: Source Sans Pro;
+    font-weight: 400;
+    margin-right: 8px;
+    border: transparent;
+    cursor: pointer;
 `

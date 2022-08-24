@@ -20,7 +20,7 @@ export const ProductDescriptionContainer = styled.div`
 export const ImageGrid = styled.div`
     width: 80px;
     color: white;
-    overflow: auto;
+    overflow: overlay;
     height: 550px;
 `
 
@@ -77,6 +77,7 @@ export const CartButton = styled.button`
     height: 52px;
     width: 292px;
     border: #5ECE7B;
+    cursor: pointer;
 
     font-size: 16px;
     font-family: Raleway;

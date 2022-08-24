@@ -74,6 +74,7 @@ export const StockTextContainer = styled.div`
     position: absolute;
     top: 40%;
     left: 50%;
+    z-index: 1;
     transform: translate(-50%, -50%);
 `
 
@@ -86,6 +87,7 @@ export const StockText = styled.h2`
 export const AddToCartCircularButton = styled.button`
     border-radius: 100%;
     position: absolute;
+    z-index: 2;
     top: 66%;
     left: 75%;
     background-color: #5ECE7B;

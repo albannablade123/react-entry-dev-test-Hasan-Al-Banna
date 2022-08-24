@@ -266,6 +266,7 @@ class App extends Component {
                 category={this.state.category}
                 currencies={this.state.currencies}
                 currency={this.state.selectedCurrency}
+                cart={this.state.cart}  
                 handleCurrencyChange={this.handleCurrencyChange}
               />
             ) : null}

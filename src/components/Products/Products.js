@@ -12,7 +12,7 @@ export default class Products extends Component {
             <GridContainer>
               {
                 this.props.products.map((product,index)=>(
-                  <Link to={`product/${product.id}`} key={product.id}>
+                  <Link to={`product/${product.id}`} key={product.id} style={{textDecoration:"none"}}>
                   <ProductCard 
                   Component={Link}
                   to={`/product/${product.id}`}
