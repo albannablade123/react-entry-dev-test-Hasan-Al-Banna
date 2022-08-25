@@ -94,34 +94,47 @@ export class Navbar extends PureComponent {
                     {this.props.currency.symbol}
                     <span class="material-symbols-outlined">expand_less</span>
                   </NavbarLinkContainer>
-                    <Dropdown
-                      handleCurrencyChange={this.props.handleCurrencyChange}
-                      currencies={this.props.currencies}
-                    />
+                  <Dropdown
+                    handleCurrencyChange={this.props.handleCurrencyChange}
+                    currencies={this.props.currencies}
+                  />
                 </>
               )}
             </OpenLinksButton>
 
-            <OpenLinksButton
-              onClick={() =>
-                this.setState({
-                  extendCartNavbar: !this.state.extendCartNavbar,
-                  extendNavbar: false,
-                })
-              }
-            >
-              {!this.state.extendCartNavbar ? (
-                <CartImg src={empty_cart}></CartImg>
-              ) : (
+            <OpenLinksButton>
+              <CartImg
+                src={empty_cart}
+                onClick={() =>
+                  this.setState({
+                    extendCartNavbar: !this.state.extendCartNavbar,
+                    extendNavbar: false,
+                  })
+                }
+              ></CartImg>
+              {!this.state.extendCartNavbar ? null : (
                 <div>
-                  <CartImg src={empty_cart}></CartImg>
-                  
                   <Background>
-                  <CheckoutDropdown
-                    currency={this.props.currency}
-                    cart={this.props.cart}
-                  />
-
+                    <CheckoutDropdown
+                      onClick={() =>
+                        this.setState({
+                          extendCartNavbar: !this.state.extendCartNavbar,
+                          extendNavbar: false,
+                        })
+                      }
+                      currency={this.props.currency}
+                      cart={this.props.cart}
+                      handleDecrementProductQuantity={
+                        this.props.handleDecrementProductQuantity
+                      }
+                      handleIncrementProductQuantity={
+                        this.props.handleIncrementProductQuantity
+                      }
+                      getTotal={this.props.getTotal}
+                      handleChangeSelectedAttribute={
+                        this.props.handleChangeSelectedAttribute
+                      }
+                    />
                   </Background>
                 </div>
               )}

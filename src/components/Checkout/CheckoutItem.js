@@ -13,27 +13,28 @@ import {
   SelectionContainer,
   ButtonAttribute,
   ButtonColor1,
-
 } from "../../styles/Checkout.style";
 import CheckoutCard from "./CheckoutCard/CheckoutCard";
 
-
-
-
 export default class CheckoutItem extends Component {
-
-  getPriceValue(){
-    let priceValue = this.props.cartItem.prices.find(o => o.currency.symbol === this.props.currency.symbol)
-    return priceValue.amount
+  getPriceValue() {
+    let priceValue = this.props.cartItem.prices.find(
+      (o) => o.currency.symbol === this.props.currency.symbol
+    );
+    return priceValue.amount;
   }
 
   render() {
+    console.log(this.props)
     return (
       <CartDropdownCard>
         <CartCardLeftContainer>
           <CartProductTitle>{this.props.cartItem.brand}</CartProductTitle>
           <CartProductTitle>{this.props.cartItem.name}</CartProductTitle>
-          <CartProductPrice>{this.props.currency.symbol}{this.getPriceValue()}</CartProductPrice>
+          <CartProductPrice>
+            {this.props.currency.symbol}
+            {this.getPriceValue()}
+          </CartProductPrice>
           {this.props.cartItem.attributes.map((attributeItem, outsideIndex) => {
             return attributeItem.name === "Color" ? (
               <div>
@@ -43,12 +44,14 @@ export default class CheckoutItem extends Component {
                 <SelectionContainer>
                   {attributeItem.items.map((choiceItem, index) => (
                     <ButtonColor1
-                      onClick={() =>
-                        this.handleChangeSelectedAttribute(
-                          outsideIndex,
-                          choiceItem
-                        )
-                      }
+                    onClick={() =>
+                      this.props.handleChangeSelectedAttribute(
+                        this.props.product.id,
+                        choiceItem,
+                        outsideIndex,
+                        index
+                      )
+                    }
                       id={choiceItem.id}
                       style={{
                         cursor: "pointer",
@@ -78,9 +81,11 @@ export default class CheckoutItem extends Component {
                     <ButtonAttribute
                       id={choiceItem.id}
                       onClick={() =>
-                        this.handleChangeSelectedAttribute(
+                        this.props.handleChangeSelectedAttribute(
+                          this.props.cartItem.id,
+                          choiceItem,
                           outsideIndex,
-                          choiceItem
+                          index
                         )
                       }
                       style={{
@@ -105,11 +110,27 @@ export default class CheckoutItem extends Component {
           })}
         </CartCardLeftContainer>
         <CountDropdownContainer>
-            <CountDropdownButton>+</CountDropdownButton>
-            <CounterDropdownText>{this.props.cartItem.quantity}</CounterDropdownText>
-            <CountDropdownButton>-</CountDropdownButton>
-          </CountDropdownContainer>
-          <ProductDropdownImage src={this.props.cartItem.displayedImage}/>
+          <CountDropdownButton
+            onClick={() => {
+              this.props.handleIncrementProductQuantity(
+                this.props.cartItem.quantity,
+                this.props.cartItem.id
+              );
+            }}
+          >
+            +
+          </CountDropdownButton>
+          <CounterDropdownText>
+            {this.props.cartItem.quantity}
+          </CounterDropdownText>
+          <CountDropdownButton onClick={() => {
+              this.props.handleDecrementProductQuantity(
+                this.props.cartItem.quantity,
+                this.props.cartItem.id
+              );
+            }}>-</CountDropdownButton>
+        </CountDropdownContainer>
+        <ProductDropdownImage src={this.props.cartItem.displayedImage} />
       </CartDropdownCard>
     );
   }

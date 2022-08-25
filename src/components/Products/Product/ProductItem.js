@@ -50,6 +50,7 @@ const client = new ApolloClient({
 });
 
 class ProductItem extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -166,7 +167,7 @@ class ProductItem extends Component {
     }
   }
 
-  handleChangeSelectedAttribute(index, newAttribute) {
+  handleChangeProductSelectedAttribute(index, newAttribute) {
     let newAttributeArray = [...this.state.product.selectedAttributes];
     newAttributeArray[index] = newAttribute;
 
@@ -179,6 +180,7 @@ class ProductItem extends Component {
   }
 
   render() {
+    console.log(this.state.product)
     return (
       <ProductItemContainer>
         <ImageGrid>
@@ -205,7 +207,7 @@ class ProductItem extends Component {
                   {attributeItem.items.map((choiceItem, index) => (
                     <ButtonColor1
                       onClick={() =>
-                        this.handleChangeSelectedAttribute(
+                        this.handleChangeProductSelectedAttribute(
                           outsideIndex,
                           choiceItem
                         )
@@ -239,7 +241,7 @@ class ProductItem extends Component {
                     <ButtonAttribute
                       id={choiceItem.id}
                       onClick={() =>
-                        this.handleChangeSelectedAttribute(
+                        this.handleChangeProductSelectedAttribute(
                           outsideIndex,
                           choiceItem
                         )

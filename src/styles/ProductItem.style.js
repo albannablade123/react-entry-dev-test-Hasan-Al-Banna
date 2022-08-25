@@ -97,12 +97,13 @@ export const ButtonAttribute = styled.button`
     height: 45px;
     font-family: Source Sans Pro;
     font-weight: 400;
-    font-size: 16px;
+    font-size: 14px;
     margin-right: 12px;
     background-color: white;
     border-width: 1px;
     border-color: #1D1F22;
     cursor:pointer;
+    text-align: center;
 `
 
 export const ButtonColor1 = styled.button`

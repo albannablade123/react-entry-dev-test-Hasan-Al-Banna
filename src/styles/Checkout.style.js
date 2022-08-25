@@ -21,6 +21,8 @@ export const CardContainer = styled.div`
   /* height: ${(props) => (props.extendNavbar ? "100vh" : "80px")}; */
   height: 336px;
   display: flex;
+  max-height: 600px;
+  overflow: auto;
 `;
 
 export const LeftCardContainer = styled.div`
@@ -71,11 +73,12 @@ export const ProductCartSubtitle = styled.div`
   margin-bottom: 20px;
 `;
 
-export const ImageCartPreview = styled.img`
+export const ImageCartPreview = styled.div`
   height: 288px;
   width: 200px;
   margin-top: 24px;
   margin-left: 24px;
+  position: relative;
 `;
 
 export const CartDropdownContainer = styled.div`
@@ -85,7 +88,6 @@ export const CartDropdownContainer = styled.div`
   padding: 32px, 16px, 32px, 16px;
   background-color: white;
   left: 1043px;
-  float: left;
   display: inline-block;
   position:absolute;
   top:0%;
@@ -130,6 +132,7 @@ export const CartDropdownCard = styled.div`
 export const CartCardLeftContainer = styled.div`
   background-color: white;
   width: 63%;
+  height: 100%;
 `
 
 export const CartProductTitle = styled.h1`
@@ -173,11 +176,11 @@ export const ProductDropdownImage = styled.img`
 
 export const DropdownButtonContainer = styled.div`
   display: flex;
-  margin: 16.5px 32px;
+  margin-left: 16.5px;
 `
 
 export const DropdownButton = styled.button`
-  width: 140px;
+  width: 200px;
   height: 40px;
   border-radius: 0px;
   font-weight: 600;
@@ -204,12 +207,13 @@ export const ButtonAttribute = styled.button`
     height: 24px;
     font-family: Source Sans Pro;
     font-weight: 400;
-    font-size: 14px;
+    font-size: 10px;
     margin-right: 8px;
     background-color: white;
     border-width: 1px;
     border-color: #1D1F22;
     cursor:pointer;
+    text-align: center;
 
 `
 
@@ -221,4 +225,74 @@ export const ButtonColor1 = styled.button`
     margin-right: 8px;
     border: transparent;
     cursor: pointer;
+`
+
+export const TotalContainer = styled.div`
+  display: flex;
+  margin-left: 16px;
+  margin-right: 16px;
+  width: 100%;
+`
+export const TotalHeader = styled.h2`
+  font-family: Roboto;
+  font-weight: 700;
+  font-size: 16px;
+  color: #1D1F22;
+  align-items: left;
+  text-align: left;
+  margin-right: 63%;
+
+`
+
+export const TotalCount = styled.h2`
+  font-family: Roboto;
+  font-weight: 700;
+  font-size: 16px;
+  color: #1D1F22;
+  text-align: right;
+
+`
+
+export const CheckoutTotalContainer = styled.div`
+  margin-top: 32px;
+  width: 279px;
+  height: 159px;
+`
+
+export const CheckoutTotalTextDiv = styled.div`
+  display: flex;
+`
+
+export const CheckoutTotalTextBold = styled.h2`
+  font-family: Raleway;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 28px;
+`
+
+export const CheckoutTotalTextNormal = styled.h2`
+  font-family: Raleway;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 28px;
+`
+
+export const CheckoutButton = styled.button`
+  border-radius: 0px;
+  cursor: pointer;
+  background-color: #5ECE7B;
+  width: 279px;
+  height: 43px;
+  border: #5ECE7B;
+  color: white;
+`
+
+export const ButtonImage = styled.button`
+  width: 24px;
+  height: 24px;
+  background-color: #1D1F22;
+  position: absolute;
+  border: #1D1F22;
+  color: white;
+  cursor: pointer;
 `

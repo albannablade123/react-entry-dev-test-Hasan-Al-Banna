@@ -56,6 +56,7 @@ class App extends Component {
         label: "",
         symbol: "",
       },
+      total: 0,
     };
   }
 
@@ -201,6 +202,68 @@ class App extends Component {
     });
   };
 
+  getTotalQuantity = () => {
+
+    if (!this.state.cart) {
+      return 0;
+    }
+    let total = 0;
+    this.state.cart.forEach(
+      (item) => {
+        total += item.quantity;
+      }
+    );
+
+    return total;
+  };
+
+  getTotal = (currency) => {
+    if (!this.state.cart) {
+      return 0;
+    }
+    let total = 0;
+    this.state.cart.forEach((item) => {
+      item.prices.forEach((o) => {
+        if (o.currency.symbol === this.state.selectedCurrency.symbol) {
+          total += o.amount * item.quantity;
+        }
+      });
+    });
+
+    return total.toFixed(2);
+  };
+
+  handleIncrementProductQuantity = (prevQuantity, productId) => {
+    let tempProductArray = this.state.cart;
+    tempProductArray = tempProductArray.map((obj) => {
+      if (obj.id === productId) {
+        return { ...obj, quantity: prevQuantity + 1 };
+      }
+
+      return obj;
+    });
+
+    this.setState({
+      ...this.state,
+      cart: tempProductArray,
+    });
+  };
+
+  handleDecrementProductQuantity = (prevQuantity, productId) => {
+    let tempProductArray = this.state.cart;
+    tempProductArray = tempProductArray.map((obj) => {
+      if (obj.id === productId && prevQuantity > 1) {
+        return { ...obj, quantity: prevQuantity - 1 };
+      }
+      return obj;
+    });
+
+    this.setState({
+      ...this.state,
+      cart: tempProductArray,
+    });
+  };
+
   handleCurrencyChange = (newCurrency) => {
     this.setState({
       ...this.state,
@@ -209,47 +272,63 @@ class App extends Component {
   };
 
   handleAddToCart = (newProduct) => {
-    window.confirm(`Add ${newProduct.name} to cart?`)
-    const index = this.state.cart.findIndex(element => {
-
-      
+    window.confirm(`Add ${newProduct.name} to cart?`);
+    const index = this.state.cart.findIndex((element) => {
       if (element.id === newProduct.id) {
         return true;
       }
       return false;
     });
 
-    if (index >= 0){
-      let tempProductArray = this.state.cart
-      let prevCount = this.state.cart[index].quantity
-      tempProductArray = tempProductArray.map(obj => {
-        if (obj.id === newProduct.id ) {
-          return {...obj, quantity: prevCount + 1};
+    if (index >= 0) {
+      let tempProductArray = this.state.cart;
+      let prevCount = this.state.cart[index].quantity;
+      tempProductArray = tempProductArray.map((obj) => {
+        if (obj.id === newProduct.id) {
+          return { ...obj, quantity: prevCount + 1 };
         }
 
         return obj;
       });
-      
+
       this.setState({
         ...this.state,
         cart: tempProductArray,
       });
-     
-    }
-    else{
+
+      console.log(tempProductArray);
+    } else {
       newProduct = {
         ...newProduct,
-        quantity: 1
-      }
-      this.setState(prevState => ({
-        cart: [...prevState.cart, newProduct]
-      }))
+        quantity: 1,
+      };
 
-
+      console.log(newProduct);
+      this.setState((prevState) => ({
+        cart: [...prevState.cart, newProduct],
+      }));
     }
+  };
 
-    
+  handleChangeSelectedAttribute = (
+    productId,
+    newAttribute,
+    outerIndex,
+    indexItem
+  ) => {
+    const index = this.state.cart.findIndex((o) => o.id === productId);
+    const tempCartArray = this.state.cart;
 
+    let oldTempSelectedAttributes = this.state.cart[index].selectedAttributes;
+    oldTempSelectedAttributes[outerIndex] = newAttribute;
+    tempCartArray[index] = {
+      ...tempCartArray[index],
+      selectedAttributes: oldTempSelectedAttributes,
+    };
+
+    this.setState({
+      cart: tempCartArray,
+    });
   };
 
   render() {
@@ -266,8 +345,18 @@ class App extends Component {
                 category={this.state.category}
                 currencies={this.state.currencies}
                 currency={this.state.selectedCurrency}
-                cart={this.state.cart}  
+                cart={this.state.cart}
                 handleCurrencyChange={this.handleCurrencyChange}
+                handleDecrementProductQuantity={
+                  this.handleDecrementProductQuantity
+                }
+                handleIncrementProductQuantity={
+                  this.handleIncrementProductQuantity
+                }
+                handleChangeSelectedAttribute={
+                  this.handleChangeSelectedAttribute
+                }
+                getTotal={this.getTotal}
               />
             ) : null}
 
@@ -297,9 +386,24 @@ class App extends Component {
               <Route
                 exact
                 path="/checkout"
-                element={<Checkout category={this.state.category} 
-                cart={this.state.cart}  
-                currency={this.state.selectedCurrency}/>}
+                element={
+                  <Checkout
+                    category={this.state.category}
+                    cart={this.state.cart}
+                    currency={this.state.selectedCurrency}
+                    handleDecrementProductQuantity={
+                      this.handleDecrementProductQuantity
+                    }
+                    handleIncrementProductQuantity={
+                      this.handleIncrementProductQuantity
+                    }
+                    handleChangeSelectedAttribute={
+                      this.handleChangeSelectedAttribute
+                    }
+                    getTotal={this.getTotal}
+                    getTotalQuantity={this.getTotalQuantity}
+                  />
+                }
               />
             </Routes>
           </div>
