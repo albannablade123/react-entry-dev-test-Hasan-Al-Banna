@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+
 import {
   ProductItemContainer,
   ImageGrid,
@@ -10,60 +11,281 @@ import {
   ProductSpecificationTitle,
   CartButton,
   SelectionContainer,
-  ButtonSize,
+  ButtonAttribute,
   ButtonColor1,
-  ButtonColor2,
-  ButtonColor3,
-  PriceText
+  PriceText,
+  ProductDescriptionContainer,
 } from "../../../styles/ProductItem.style";
+import { useParams } from "react-router-dom";
+import parse from "html-react-parser";
+import { GET_PRODUCT_BY_ID } from "../../../GraphQl/Queries";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  HttpLink,
+  from,
+} from "@apollo/client";
+import { useQuery, gql } from "@apollo/client";
 
-export default class ProductItem extends Component {
+import { onError } from "@apollo/client/link/error";
+
+function withParams(Component) {
+  return (props) => <Component {...props} params={useParams()} />;
+}
+
+const errorLink = onError(({ graphqlErrors, networkError }) => {
+  if (graphqlErrors) {
+    graphqlErrors.map(({ message, location, path }) => {
+      alert(`Graphql errors ${message}`);
+    });
+  }
+});
+
+const link = from([errorLink, new HttpLink({ uri: "http://localhost:4000/" })]);
+
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  link: link,
+});
+
+class ProductItem extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
-      displayedImage: "https://i.scdn.co/image/ab67616d0000b273d57c54675dee2618421c98c4",
+      product: {
+        id: "",
+        name: "",
+        description: "",
+        gallery: [],
+        prices: [],
+        attributes: [],
+        displayedImage: "",
+        quantity: 0,
+        selectedAttributes: [],
+      },
     };
   }
 
-  
+  componentDidMount() {
+    let { id } = this.props.params;
+
+    const query = gql`
+  query{
+    product(id: "${id}"){
+       id
+      name
+      inStock
+      gallery
+      description
+      category
+      attributes {
+        id
+        name
+        type
+        items{
+          displayValue
+          value
+          id
+        }
+      }
+      brand
+      prices{
+        currency {
+          label
+          symbol
+        }
+        amount
+      }
+      
+    }
+  }
+  `;
+
+    client
+      .query({
+        query: query,
+        variables: { id: id },
+      })
+      .then((result) =>
+        this.setState({
+          product: {
+            id: result.data.product.id,
+            name: result.data.product.name,
+            prices: result.data.product.prices,
+            gallery: result.data.product.gallery,
+            displayedImage: result.data.product.gallery[0],
+            description: result.data.product.description,
+            attributes: result.data.product.attributes,
+            brand: result.data.product.brand,
+            selectedAttributes: [],
+            quantity: 0,
+          },
+        })
+      );
+  }
+
+  handleChangeDisplayImage = (newImage) => {
+    this.setState({
+      product: {
+        ...this.state.product,
+        displayedImage: newImage,
+      },
+    });
+  };
+
+  getPriceValue() {
+    let priceValue = this.state?.product?.prices?.find(
+      (o) => o.currency.symbol === this.props.currency.symbol
+    );
+    return priceValue?.amount;
+  }
+
+  setInitialAttribute() {
+    if (!this.state.product.attributes) {
+      return;
+    } else {
+      let temporaryAttributesArray = [];
+
+      this.state.product.attributes.forEach((Element) => {
+        temporaryAttributesArray.push(Element.items[0]);
+      });
+      this.setState({
+        product: {
+          ...this.state.product,
+          selectedAttributes: temporaryAttributesArray,
+        },
+      });
+    }
+  }
+
+  componentDidUpdate(previousProps, prevState) {
+    if (prevState.product !== this.state.product) {
+      if (prevState.product.attributes !== this.state.product.attributes)
+        this.setInitialAttribute();
+    }
+  }
+
+  handleChangeProductSelectedAttribute(index, newAttribute) {
+    let newAttributeArray = [...this.state.product.selectedAttributes];
+    newAttributeArray[index] = newAttribute;
+
+    this.setState({
+      product: {
+        ...this.state.product,
+        selectedAttributes: newAttributeArray,
+      },
+    });
+  }
 
   render() {
+    console.log(this.state.product)
     return (
       <ProductItemContainer>
         <ImageGrid>
-          <ImagePreview src="https://i.scdn.co/image/ab67616d0000b273d57c54675dee2618421c98c4" />
-          <ImagePreview src="https://i.scdn.co/image/ab67616d0000b273d57c54675dee2618421c98c4" />
-          <ImagePreview src="https://i.scdn.co/image/ab67616d0000b273d57c54675dee2618421c98c4" />
-          <ImagePreview src="https://i.scdn.co/image/ab67616d0000b273d57c54675dee2618421c98c4" />
+          {this.state.product.gallery.map((item, index) => (
+            <ImagePreview
+              src={item}
+              onClick={() => {
+                this.handleChangeDisplayImage(item, index);
+              }}
+            />
+          ))}
         </ImageGrid>
-        <ImageContainer src={this.state.displayedImage} />
+        <ImageContainer src={this.state.product.displayedImage} />
         <ProductItemContent>
-          <ProductTitle>Apollo</ProductTitle>
+          <ProductTitle>{this.state.product.name}</ProductTitle>
           <ProductSubtitle>Running Short</ProductSubtitle>
-          <ProductSpecificationTitle>Size:</ProductSpecificationTitle>
-          <SelectionContainer>
-            <ButtonSize>XS</ButtonSize>
-            <ButtonSize>S</ButtonSize>
-            <ButtonSize>M</ButtonSize>
-            <ButtonSize>L</ButtonSize>
-          </SelectionContainer>
-          <ProductSpecificationTitle>Color:</ProductSpecificationTitle>
-          <SelectionContainer>
-            <ButtonColor1/>
-            <ButtonColor2/>
-            <ButtonColor3/>
-          </SelectionContainer>
+          {this.state.product.attributes.map((attributeItem, outsideIndex) => {
+            return attributeItem.name === "Color" ? (
+              <div>
+                <ProductSpecificationTitle id={attributeItem.id}>
+                  {attributeItem.name.toUpperCase()}
+                </ProductSpecificationTitle>
+                <SelectionContainer>
+                  {attributeItem.items.map((choiceItem, index) => (
+                    <ButtonColor1
+                      onClick={() =>
+                        this.handleChangeProductSelectedAttribute(
+                          outsideIndex,
+                          choiceItem
+                        )
+                      }
+                      id={choiceItem.id}
+                      style={{
+                        cursor: "pointer",
+                        backgroundColor: choiceItem.value,
+                        borderWidth:
+                          this.state.product?.selectedAttributes[outsideIndex]
+                            ?.id === choiceItem.id
+                            ? "1px"
+                            : "0px",
+                        border:
+                          this.state.product?.selectedAttributes[outsideIndex]
+                            ?.id === choiceItem.id
+                            ? "2px solid #5ECE7B"
+                            : "#1D1F22",
+                      }}
+                    />
+                  ))}
+                </SelectionContainer>
+              </div>
+            ) : (
+              <div>
+                <ProductSpecificationTitle id={attributeItem.id}>
+                  {attributeItem.name.toUpperCase()}
+                </ProductSpecificationTitle>
+                <SelectionContainer>
+                  {attributeItem.items.map((choiceItem, index) => (
+                    <ButtonAttribute
+                      id={choiceItem.id}
+                      onClick={() =>
+                        this.handleChangeProductSelectedAttribute(
+                          outsideIndex,
+                          choiceItem
+                        )
+                      }
+                      style={{
+                        backgroundColor:
+                          this.state.product?.selectedAttributes[outsideIndex]
+                            ?.id === choiceItem.id
+                            ? "#1D1F22"
+                            : "white",
+                        color:
+                          this.state.product?.selectedAttributes[outsideIndex]
+                            ?.id === choiceItem.id
+                            ? "white"
+                            : "#1D1F22",
+                      }}
+                    >
+                      {choiceItem.displayValue}
+                    </ButtonAttribute>
+                  ))}
+                </SelectionContainer>
+              </div>
+            );
+          })}
+
           <ProductSpecificationTitle>Price:</ProductSpecificationTitle>
-          <PriceText>50.00$</PriceText>
-          <CartButton>Add To Cart</CartButton>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi
-            quam facilis labore ad maxime libero temporibus quae dignissimos
-            numquam molestiae placeat suscipit beatae aut voluptas, ipsam
-            exercitationem dolorum, sed qui.
-          </p>
+          <PriceText>
+            {this.getPriceValue()}
+            {this.props.currency.symbol}
+          </PriceText>
+          <CartButton
+            onClick={() => {
+              this.props.handleAddToCart(this.state.product);
+            }}
+          >
+            Add To Cart
+          </CartButton>
+          <ProductDescriptionContainer>
+            {parse(this.state.product.description)}
+          </ProductDescriptionContainer>
         </ProductItemContent>
       </ProductItemContainer>
     );
   }
 }
+
+export default withParams(ProductItem);

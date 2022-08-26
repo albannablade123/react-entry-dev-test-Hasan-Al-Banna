@@ -8,20 +8,6 @@ export default class Dropdown extends Component {
     super(props);
     this.state = {
       isSelected: false,
-      submenus: [
-        {
-          title: "$ USD",
-          url: "web-design",
-        },
-        {
-          title: "E Euro",
-          url: "web-dev",
-        },
-        {
-          title: "Y JPY",
-          url: "seo",
-        },
-      ],
     };
   }
 
@@ -32,9 +18,9 @@ export default class Dropdown extends Component {
   render() {
     return (
       <ul style={{listStyle: 'none', padding: "0px 0px", margin: "0px 0px"}}>
-        {this.state.submenus.map((submenu, index) => (
-          <CurrencyLi key={index} className="menu-items">
-            {submenu.title}
+        {this.props.currencies.map((item, index) => (
+          <CurrencyLi key={index} className="menu-items" onClick={() => this.props.handleCurrencyChange(index)}>
+            {item.symbol} {item.label}
           </CurrencyLi>
         ))}
       </ul>

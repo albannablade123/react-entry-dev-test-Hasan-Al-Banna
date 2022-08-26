@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom';
 
 
 export const NavbarContainer = styled.nav`
-    width: 100%;
     /* height: ${(props) => (props.extendNavbar ? "100vh" : "80px")}; */
     height: 80px;
     background-color: white;
@@ -11,6 +10,18 @@ export const NavbarContainer = styled.nav`
     flex-direction: column;
     
 `;
+
+export const Background = styled.div`
+    height: 1475px;
+    width: 1440px;
+    left: 0%;
+    position: absolute;
+    backdrop-filter: blur(8px);
+    background: #39374838 22%;
+    z-index: 100;
+;
+
+`
 
 export const LeftContainer = styled.div`
     font-family: Raleway;
@@ -59,6 +70,7 @@ export const NavbarLinkContainer = styled.div`
     border-radius: 0px;
     border-bottom: 1px;
 
+
 `
 
 export const NavbarLink = styled(Link)`
@@ -94,10 +106,6 @@ export const CartImg = styled.img`
     width: 20px;
     height: 20px;
     left: 184;
-    margin-top: 10px;
-    margin-bottom: 27px;
-    margin-left: 22px;
-    margin-right: 101px;
 `
 
 export const OpenLinksButton = styled.button`
@@ -113,6 +121,7 @@ export const OpenLinksButton = styled.button`
     margin-bottom: 22.5px;
     font-size:18px;
     font-weight: 500;
+    background-color: white;
 `
 
 export const CurrencyDropDown = styled.div`
@@ -126,6 +135,7 @@ export const iconImage = styled.div`
 
 export const DropdownContainer = styled.div`
     width: 10px;
+    float: left;
 `
 
 export const CurrencyLi = styled.li`
