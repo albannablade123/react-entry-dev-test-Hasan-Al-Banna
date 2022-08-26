@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Link, useLocation } from 'react-router-dom';
 
 
 export const CategoryTitle = styled.h2`
@@ -82,6 +81,7 @@ export const StockText = styled.h2`
     font-family: Raleway;
     font-weight: 400;
     font-size: 24px;
+    color: #8D8F9A;
 `
 
 export const AddToCartCircularButton = styled.button`
@@ -95,6 +95,7 @@ export const AddToCartCircularButton = styled.button`
     width: 52px;
     box-shadow: '0px 4px 35px #E5E5E5';
     border-width: 0px;
+    cursor: pointer;
 
 `
 

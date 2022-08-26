@@ -1,16 +1,12 @@
-import logo from "./logo.svg";
 import "./App.css";
-import React, { Component, useEffect, useState } from "react";
+import React, { Component } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import Products from "./components/Products/Products";
 import ProductItem from "./components/Products/Product/ProductItem";
 import Checkout from "./components/Checkout/Checkout";
-import { gql } from "@apollo/client";
 import {
   GET_CATEGORIES,
-  GET_ALL_PRODUCTS,
-  GET_TECH_PRODUCTS,
-  GET_CLOTHES_PRODUCTS,
+  GET_PRODUCTS_BY_CATEGORY,
   GET_CURRENCIES,
 } from "./GraphQl/Queries";
 
@@ -23,9 +19,7 @@ import {
 } from "@apollo/client";
 
 import { onError } from "@apollo/client/link/error";
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { graphql } from "graphql";
 
 const errorLink = onError(({ graphqlErrors, networkError }) => {
   if (graphqlErrors) {
@@ -89,7 +83,7 @@ class App extends Component {
     try {
       client
         .query({
-          query: GET_ALL_PRODUCTS,
+          query: GET_PRODUCTS_BY_CATEGORY,
         })
         .then((result) =>
           result.data.category.products.map((product) =>
@@ -156,16 +150,10 @@ class App extends Component {
       const tempProductsArray = [];
       let queryTest;
 
-      if (this.state.category === "all") {
-        queryTest = GET_ALL_PRODUCTS;
-      } else if (this.state.category === "clothes") {
-        queryTest = GET_CLOTHES_PRODUCTS;
-      } else {
-        queryTest = GET_TECH_PRODUCTS;
-      }
       client
         .query({
-          query: queryTest,
+          query: GET_PRODUCTS_BY_CATEGORY,
+          variables: { category : this.state.category}
         })
         .then((result) =>
           result.data.category.products.map((product) =>
@@ -316,6 +304,8 @@ class App extends Component {
     outerIndex,
     indexItem
   ) => {
+
+    console.log(productId,newAttribute,outerIndex)
     const index = this.state.cart.findIndex((o) => o.id === productId);
     const tempCartArray = this.state.cart;
 

@@ -83,14 +83,14 @@ export const ImageCartPreview = styled.div`
 
 export const CartDropdownContainer = styled.div`
   width: 325px;
-  height: 677px;
+ max-height: 677px;
   border-radius: 0px;
   padding: 32px, 16px, 32px, 16px;
   background-color: white;
   left: 1043px;
   display: inline-block;
   position:absolute;
-  top:0%;
+  top: 80px;
   z-index: 100;
 
 `;
@@ -104,18 +104,19 @@ export const CartItemsContainer = styled.div`
   margin-left: auto;
   margin-right: auto;
   overflow: overlay;
+  cursor: default;
 `;
 
 export const CartContentContainer = styled.div`
   background-color: white;
   width: 293px;
-  height: 538px;
+ max-height: 538px;
   margin-left: auto;
   margin-right: auto;
 `;
 
 export const CartDropdownTitle = styled.h2`
-  font-weight: 700;
+  font-weight: 400;
   font-size: 16px;
   text-align: left;
   margin-bottom: 32px;
@@ -123,9 +124,10 @@ export const CartDropdownTitle = styled.h2`
 `;
 
 export const CartDropdownCard = styled.div`
+
   height: 190px;
   display: flex;
-  margin-bottom: 40px;
+  margin-bottom: 32px;
   overflow: overlay;
 `
 
@@ -177,10 +179,12 @@ export const ProductDropdownImage = styled.img`
 export const DropdownButtonContainer = styled.div`
   display: flex;
   margin-left: 16.5px;
+  padding-bottom: 20px;
+  margin-right: 16.5px;
 `
 
 export const DropdownButton = styled.button`
-  width: 200px;
+  width: 140px;
   height: 40px;
   border-radius: 0px;
   font-weight: 600;
@@ -203,7 +207,7 @@ export const SelectionContainer = styled.div`
 `
 
 export const ButtonAttribute = styled.button`
-    width: 24px;
+    width: 100%;
     height: 24px;
     font-family: Source Sans Pro;
     font-weight: 400;
@@ -214,6 +218,10 @@ export const ButtonAttribute = styled.button`
     border-color: #1D1F22;
     cursor:pointer;
     text-align: center;
+    font-size: 0.6vw;
+    max-width: 30px;
+    max-height: 30px;
+    padding: 1px 1px;
 
 `
 
@@ -231,16 +239,15 @@ export const TotalContainer = styled.div`
   display: flex;
   margin-left: 16px;
   margin-right: 16px;
-  width: 100%;
+  justify-content: space-between;
 `
 export const TotalHeader = styled.h2`
   font-family: Roboto;
   font-weight: 700;
   font-size: 16px;
   color: #1D1F22;
-  align-items: left;
-  text-align: left;
-  margin-right: 63%;
+  margin-right: auto;
+
 
 `
 
@@ -249,8 +256,6 @@ export const TotalCount = styled.h2`
   font-weight: 700;
   font-size: 16px;
   color: #1D1F22;
-  text-align: right;
-
 `
 
 export const CheckoutTotalContainer = styled.div`
@@ -296,3 +301,11 @@ export const ButtonImage = styled.button`
   color: white;
   cursor: pointer;
 `
+
+export const CartContentContainerEmpty = styled.div`
+  background-color: white;
+  height: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+`;

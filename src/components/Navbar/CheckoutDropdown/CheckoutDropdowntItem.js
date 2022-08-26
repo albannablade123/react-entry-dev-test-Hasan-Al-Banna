@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import {
-  CartDropdownTitle,
   CartDropdownCard,
   CartCardLeftContainer,
   CartProductTitle,
@@ -13,8 +12,7 @@ import {
   SelectionContainer,
   ButtonAttribute,
   ButtonColor1,
-} from "../../styles/Checkout.style";
-import CheckoutCard from "./CheckoutCard/CheckoutCard";
+} from "../../../styles/Checkout.style";
 
 export default class CheckoutItem extends Component {
   getPriceValue() {

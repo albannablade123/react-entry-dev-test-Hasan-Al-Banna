@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link} from "react-router-dom";
 import {
   Card,
   CardImage,
@@ -8,7 +9,8 @@ import {
   StockText,
   AddToCartCircularButton,
 } from "../../../styles/Products.style.js";
-import { Link, useLocation } from 'react-router-dom';
+
+import cart_logo_buy from "../../../assets/Vector.png";
 
 export default class ProductCard extends Component {
   constructor(props) {
@@ -33,9 +35,11 @@ export default class ProductCard extends Component {
     console.log("add to cart");
   };
 
-  getPriceValue(){
-    let priceValue = this.props.price.find(o => o.currency.symbol === this.props.currency.symbol)
-    return priceValue.amount
+  getPriceValue() {
+    let priceValue = this.props.price.find(
+      (o) => o.currency.symbol === this.props.currency.symbol
+    );
+    return priceValue.amount;
   }
 
   render() {
@@ -46,12 +50,10 @@ export default class ProductCard extends Component {
     const stockStyle = {
       opacity: this.props.inStock ? "100%" : "50%",
     };
-    
- 
     return (
+    
       <Card
-        style={onHoverStyle}
-        
+        style={this.props.inStock ? onHoverStyle : stockStyle}
         onMouseEnter={() => {
           this.handleMouseEnter();
         }}
@@ -59,25 +61,31 @@ export default class ProductCard extends Component {
           this.handleMouseLeave();
         }}
       >
-
         {!this.props.inStock ? (
           <StockTextContainer>
             <StockText>Out of stock</StockText>
           </StockTextContainer>
         ) : null}
-        <CardImage src={this.props.image} style={stockStyle} alt="" />
+        <CardImage src={this.props.image} alt="" />
         {this.props.inStock && this.state.onHover && (
-          <AddToCartCircularButton
-            onClick={() => {
-              this.handleAddToCart();
-            }}
-          />
+          <Link
+            to={`product/${this.props.id}`}
+            key={this.props.id}
+            style={{ textDecoration: "none" }}
+          >
+            <AddToCartCircularButton>
+              <img src={cart_logo_buy} alt="" />
+            </AddToCartCircularButton>
+          </Link>
         )}
         <CardTitle>{this.props.name}</CardTitle>
-        <CardPriceTitle>{this.props.currency.symbol}{this.getPriceValue()}</CardPriceTitle>
+        <CardPriceTitle>
+          {this.props.currency.symbol}
+          {this.getPriceValue()}
+        </CardPriceTitle>
       </Card>
     );
   }
 }
 
-// 
+//
