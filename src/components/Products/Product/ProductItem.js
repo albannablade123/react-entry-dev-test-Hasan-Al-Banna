@@ -12,21 +12,15 @@ import {
   CartButton,
   SelectionContainer,
   ButtonAttribute,
-  ButtonColor1,
+  ButtonAttributeColor,
+  ButtonSelected,
   PriceText,
   ProductDescriptionContainer,
 } from "../../../styles/ProductItem.style";
 import { useParams } from "react-router-dom";
 import parse from "html-react-parser";
 import { GET_PRODUCT_BY_ID } from "../../../GraphQl/Queries";
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  HttpLink,
-  from,
-} from "@apollo/client";
-import { useQuery, gql } from "@apollo/client";
+import { ApolloClient, InMemoryCache, HttpLink, from } from "@apollo/client";
 
 import { onError } from "@apollo/client/link/error";
 
@@ -50,7 +44,6 @@ const client = new ApolloClient({
 });
 
 class ProductItem extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -71,41 +64,9 @@ class ProductItem extends Component {
   componentDidMount() {
     let { id } = this.props.params;
 
-    const query = gql`
-  query{
-    product(id: "${id}"){
-       id
-      name
-      inStock
-      gallery
-      description
-      category
-      attributes {
-        id
-        name
-        type
-        items{
-          displayValue
-          value
-          id
-        }
-      }
-      brand
-      prices{
-        currency {
-          label
-          symbol
-        }
-        amount
-      }
-      
-    }
-  }
-  `;
-
     client
       .query({
-        query: query,
+        query: GET_PRODUCT_BY_ID,
         variables: { id: id },
       })
       .then((result) =>
@@ -180,12 +141,12 @@ class ProductItem extends Component {
   }
 
   render() {
-    console.log(this.state.product)
     return (
       <ProductItemContainer>
         <ImageGrid>
           {this.state.product.gallery.map((item, index) => (
             <ImagePreview
+              key={index}
               src={item}
               onClick={() => {
                 this.handleChangeDisplayImage(item, index);
@@ -199,23 +160,14 @@ class ProductItem extends Component {
           <ProductSubtitle>Running Short</ProductSubtitle>
           {this.state.product.attributes.map((attributeItem, outsideIndex) => {
             return attributeItem.name === "Color" ? (
-              <div>
+              <div key={outsideIndex}>
                 <ProductSpecificationTitle id={attributeItem.id}>
                   {attributeItem.name.toUpperCase()}
                 </ProductSpecificationTitle>
                 <SelectionContainer>
                   {attributeItem.items.map((choiceItem, index) => (
-                    <ButtonColor1
-                      onClick={() =>
-                        this.handleChangeProductSelectedAttribute(
-                          outsideIndex,
-                          choiceItem
-                        )
-                      }
-                      id={choiceItem.id}
+                    <ButtonSelected
                       style={{
-                        cursor: "pointer",
-                        backgroundColor: choiceItem.value,
                         borderWidth:
                           this.state.product?.selectedAttributes[outsideIndex]
                             ?.id === choiceItem.id
@@ -227,12 +179,30 @@ class ProductItem extends Component {
                             ? "2px solid #5ECE7B"
                             : "#1D1F22",
                       }}
-                    />
+                    >
+                      <ButtonAttributeColor
+                        onClick={() =>
+                          this.handleChangeProductSelectedAttribute(
+                            outsideIndex,
+                            choiceItem
+                          )
+                        }
+                        id={choiceItem.id}
+                        style={{
+                          cursor: "pointer",
+                          backgroundColor: choiceItem.value,
+                          border:
+                            choiceItem.value === "#FFFFFF"
+                              ? "2px solid	#989898"
+                              : null,
+                        }}
+                      />
+                    </ButtonSelected>
                   ))}
                 </SelectionContainer>
               </div>
             ) : (
-              <div>
+              <div key={outsideIndex}>
                 <ProductSpecificationTitle id={attributeItem.id}>
                   {attributeItem.name.toUpperCase()}
                 </ProductSpecificationTitle>

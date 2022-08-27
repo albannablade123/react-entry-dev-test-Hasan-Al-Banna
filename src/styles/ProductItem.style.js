@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Link, useLocation } from 'react-router-dom';
 
 export const ProductItemContainer = styled.div`
     padding: 60px 100px;
@@ -106,15 +105,24 @@ export const ButtonAttribute = styled.button`
     text-align: center;
 `
 
-export const ButtonColor1 = styled.button`
+export const ButtonAttributeColor = styled.button`
     width: 32px;
     height: 32px;
-    font-family: Source Sans Pro;
-    font-weight: 400;
-    font-size: 16px;
-    margin-right: 12px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+   
     border: transparent;
     cursor: pointer;
+    position: absolute;
+    background-color: transparent;
+`
+
+export const ButtonSelected = styled.div`
+    position: relative;
+    width: 36px;
+    height: 36px;
+    margin-right: 12px;
 `
 
 export const ButtonColor2 = styled.button`

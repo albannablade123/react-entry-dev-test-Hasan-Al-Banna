@@ -5,9 +5,9 @@ import {
   CheckoutTotalContainer,
   CheckoutTotalTextNormal,
   CheckoutTotalTextDiv,
-  CheckoutButton
+  CheckoutButton,
 } from "../../styles/Checkout.style";
-import CheckoutCard from "./CheckoutCard/CheckoutCard";
+import CheckoutCard from "./CheckoutCard";
 
 export default class Checkout extends Component {
   render() {
@@ -23,8 +23,7 @@ export default class Checkout extends Component {
               handleDecrementProductQuantity={
                 this.props.handleDecrementProductQuantity
               }
-
-              
+              key={index}
               handleIncrementProductQuantity={
                 this.props.handleIncrementProductQuantity
               }
@@ -38,20 +37,28 @@ export default class Checkout extends Component {
         <CheckoutTotalContainer>
           <CheckoutTotalTextDiv>
             <CheckoutTotalTextNormal>
-              Tax 21%:      <b>{(this.props.getTotal() * 0.21).toFixed(2)}</b>
+              Tax 21%: &nbsp;&nbsp;
+              <b>
+                {(this.props.getTotal() * 0.21).toFixed(2)}
+                {this.props.currency.symbol}
+              </b>
             </CheckoutTotalTextNormal>
           </CheckoutTotalTextDiv>
 
           <CheckoutTotalTextDiv>
             <CheckoutTotalTextNormal>
-              Quantity:
+              Quantity:&nbsp;&nbsp;
               <b>{this.props.getTotalQuantity()}</b>
             </CheckoutTotalTextNormal>
           </CheckoutTotalTextDiv>
 
           <CheckoutTotalTextDiv>
             <CheckoutTotalTextNormal>
-              Total:      <b>{this.props.getTotal()}</b>
+              Total: &nbsp;&nbsp;
+              <b>
+                {this.props.getTotal()}
+                {this.props.currency.symbol}
+              </b>
             </CheckoutTotalTextNormal>
           </CheckoutTotalTextDiv>
           <CheckoutButton>Order</CheckoutButton>

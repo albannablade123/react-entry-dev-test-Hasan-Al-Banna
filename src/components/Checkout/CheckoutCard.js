@@ -10,14 +10,15 @@ import {
   CounterText,
   ImageCartPreview,
   ButtonImage,
-} from "../../../styles/Checkout.style";
+} from "../../styles/Checkout.style";
 import {
   ProductSpecificationTitle,
   SelectionContainer,
   ButtonAttribute,
-  ButtonColor1,
+  ButtonAttributeColor,
+  ButtonSelected,
   PriceText,
-} from "../../../styles/ProductItem.style";
+} from "../../styles/ProductItem.style";
 
 export default class CheckoutCard extends Component {
   constructor(props) {
@@ -28,25 +29,26 @@ export default class CheckoutCard extends Component {
   }
 
   handleImageNext = () => {
-    
-    if (this.state.imageIndex >= this.props.product.gallery.length - 1){
-      return
+    if (this.state.imageIndex >= this.props.product.gallery.length - 1) {
+      return;
+    } else {
+      this.setState((prevState, props) => ({
+        imageIndex: prevState.imageIndex + 1,
+      }));
     }
-    else{
-      this.setState((prevState, props) => ({ imageIndex: prevState.imageIndex + 1 }));
-
-    }
-  }
+  };
 
   handleImagePrevious = () => {
-    if (this.state.imageIndex == 0) {
+    if (this.state.imageIndex === 0) {
       return;
     } else {
       this.setState(
-        this.setState((prevState, props) => ({ imageIndex: prevState.imageIndex - 1 }))
+        this.setState((prevState, props) => ({
+          imageIndex: prevState.imageIndex - 1,
+        }))
       );
     }
-  }
+  };
 
   getPriceValue() {
     let priceValue = this.props.product.prices.find(
@@ -56,25 +58,34 @@ export default class CheckoutCard extends Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <CardContainer>
         <LeftCardContainer>
           <ProductCartTitle>{this.props.product.brand}</ProductCartTitle>
           <ProductCartSubtitle>{this.props.product.name}</ProductCartSubtitle>
           <PriceText>
-            {this.getPriceValue()}
+            {(this.getPriceValue() * this.props.product.quantity).toFixed(2)}
             {this.props.currency.symbol}
           </PriceText>
           {this.props.product.attributes.map((attributeItem, outsideIndex) => {
             return attributeItem.name === "Color" ? (
-              <div>
+              <div key={outsideIndex}>
                 <ProductSpecificationTitle id={attributeItem.id}>
                   {attributeItem.name.toUpperCase()}
                 </ProductSpecificationTitle>
                 <SelectionContainer>
                   {attributeItem.items.map((choiceItem, index) => (
-                    <ButtonColor1
+                    <ButtonSelected style={{borderWidth:
+                      this.props.product?.selectedAttributes[outsideIndex]
+                        ?.id === choiceItem.id
+                        ? "1px"
+                        : "0px",
+                    border:
+                      this.props.product?.selectedAttributes[outsideIndex]
+                        ?.id === choiceItem.id
+                        ? "2px solid #5ECE7B"
+                        : "#1D1F22",}}>
+                      <ButtonAttributeColor
                       onClick={() =>
                         this.props.handleChangeSelectedAttribute(
                           this.props.product.id,
@@ -87,23 +98,16 @@ export default class CheckoutCard extends Component {
                       style={{
                         cursor: "pointer",
                         backgroundColor: choiceItem.value,
-                        borderWidth:
-                          this.props.product?.selectedAttributes[outsideIndex]
-                            ?.id === choiceItem.id
-                            ? "1px"
-                            : "0px",
-                        border:
-                          this.props.product?.selectedAttributes[outsideIndex]
-                            ?.id === choiceItem.id
-                            ? "2px solid #5ECE7B"
-                            : "#1D1F22",
+                        border: choiceItem.value === '#FFFFFF' ? "2px solid	#989898" : null,
+                        
                       }}
                     />
+                    </ButtonSelected>
                   ))}
                 </SelectionContainer>
               </div>
             ) : (
-              <div>
+              <div key={outsideIndex}>
                 <ProductSpecificationTitle id={attributeItem.id}>
                   {attributeItem.name.toUpperCase()}
                 </ProductSpecificationTitle>

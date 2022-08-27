@@ -1,48 +1,73 @@
 import React, { PureComponent } from "react";
-import { Link, useLocation } from "react-router-dom";
 import {
   NavbarContainer,
   LeftContainer,
   RightContainer,
   NavbarInnerContainer,
-  NavbarExtendedContainer,
   NavbarLinkContainer,
   Background,
   NavbarLink,
   CartImg,
   OpenLinksButton,
+  CartCounter,
+  CartLogoDiv,
 } from "../../styles/Navbar.style.js";
-import Dropdown from "./Dropdown.js";
-import CheckoutDropdown from "../Checkout/CheckoutDropdown.js";
+import Dropdown from "./CurrencyDropdown/CurrencyDropdown";
+import CheckoutDropdown from "./CheckoutDropdown/CheckoutDropdown";
 
 import empty_cart from "../../assets/empty_cart.png";
+import store_logo from "../../assets/a-logo.png";
 
 export class Navbar extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      extendNavbar: false,
+      extendCurrencyNavbar: false,
       extendCartNavbar: false,
       isActive: 1,
       categories: this.props.categories || ["hex"],
     };
   }
 
-  onMouseEnter(event) {
-    if (window.innerWidth < 956) {
-      // console.log("based?");
-    }
-    this.setState({ isSelected: !this.state.isSelected });
-  }
+  handleExtendCartNavbar = () => {
+    this.setState({
+      extendCartNavbar: true,
+      extendCurrencyNavbar: false,
+    });
+  };
+
+  handleCloseCartNavbar = () => {
+    this.setState({
+      extendCartNavbar: false,
+      extendCurrencyNavbar: false,
+    });
+  };
+
+
+  handleCloseCurrencyNavbar = () => {
+    this.setState({
+      extendCartNavbar: false,
+      extendCurrencyNavbar: false,
+    });
+  };
+
+  handleExtendCurrencyNavbar = () => {
+    this.setState({
+      extendCurrencyNavbar: !this.state.extendCurrencyNavbar,
+      extendCartNavbar: false,
+    });
+  };
+
+  
 
   render() {
     return (
-      <NavbarContainer extendNavbar={this.state.extendNavbar}>
+      <NavbarContainer extendNavbar={this.state.extendCurrencyNavbar}>
         <NavbarInnerContainer>
           <LeftContainer>
             <NavbarLinkContainer selectedCategory={this.state.selectedCategory}>
               {this.state.categories.map((item, index) => (
-                <div
+                <div key={index}
                   style={{
                     borderBottomColor:
                       item === this.props.category ? "#5ECE7B" : "white",
@@ -64,25 +89,30 @@ export class Navbar extends PureComponent {
                 </div>
               ))}
             </NavbarLinkContainer>
-            <img src="assets/a-logo.png" alt="" />
           </LeftContainer>
-
+          <img
+            src={store_logo}
+            style={{
+              textAlign: "center",
+              width: "41px",
+              height: "41px",
+              marginTop: "24px",
+              marginRight: "395px",
+            }}
+            alt=""
+          />
           <RightContainer>
             <OpenLinksButton
-              onClick={() =>
-                this.setState({
-                  extendNavbar: !this.state.extendNavbar,
-                  extendCartNavbar: false,
-                })
-              }
+              onMouseLeave={() => this.handleExtendCurrencyNavbar()}
+              onMouseEnter={() => this.handleExtendCurrencyNavbar()}
             >
-              {!this.state.extendNavbar ? (
+              {!this.state.extendCurrencyNavbar ? (
                 <>
                   <NavbarLinkContainer>
                     {this.props.currency.symbol}
                     <span
                       class="material-symbols-outlined"
-                      style={{ width: "2px" }}
+                      style={{ width: "1px" }}
                     >
                       expand_more
                     </span>
@@ -95,6 +125,7 @@ export class Navbar extends PureComponent {
                     <span class="material-symbols-outlined">expand_less</span>
                   </NavbarLinkContainer>
                   <Dropdown
+                    handleCloseCurrencyNavbar={this.handleCloseCurrencyNavbar}
                     handleCurrencyChange={this.props.handleCurrencyChange}
                     currencies={this.props.currencies}
                   />
@@ -103,41 +134,37 @@ export class Navbar extends PureComponent {
             </OpenLinksButton>
 
             <OpenLinksButton>
-              <CartImg
-                src={empty_cart}
-                onClick={() =>
-                  this.setState({
-                    extendCartNavbar: !this.state.extendCartNavbar,
-                    extendNavbar: false,
-                  })
-                }
-              ></CartImg>
-              {!this.state.extendCartNavbar ? null : (
-                <div>
-                  <Background>
+              <div
+                onMouseEnter={() => this.handleExtendCartNavbar()}
+              >
+                <CartLogoDiv>
+                  <CartImg src={empty_cart} />
+                  <CartCounter>{this.props.cart.length}</CartCounter>
+                </CartLogoDiv>
+
+                {!this.state.extendCartNavbar ? null : (
+                  <div>
+                    <Background/>
+                      
                     <CheckoutDropdown
-                      onClick={() =>
-                        this.setState({
-                          extendCartNavbar: !this.state.extendCartNavbar,
-                          extendNavbar: false,
-                        })
-                      }
-                      currency={this.props.currency}
-                      cart={this.props.cart}
-                      handleDecrementProductQuantity={
-                        this.props.handleDecrementProductQuantity
-                      }
-                      handleIncrementProductQuantity={
-                        this.props.handleIncrementProductQuantity
-                      }
-                      getTotal={this.props.getTotal}
-                      handleChangeSelectedAttribute={
-                        this.props.handleChangeSelectedAttribute
-                      }
-                    />
-                  </Background>
-                </div>
-              )}
+                        onMouseLeave={() => this.handleCloseCartNavbar()}
+                        handleCloseCartNavbar={this.handleCloseCartNavbar}
+                        currency={this.props.currency}
+                        cart={this.props.cart}
+                        handleDecrementProductQuantity={
+                          this.props.handleDecrementProductQuantity
+                        }
+                        handleIncrementProductQuantity={
+                          this.props.handleIncrementProductQuantity
+                        }
+                        getTotal={this.props.getTotal}
+                        handleChangeSelectedAttribute={
+                          this.props.handleChangeSelectedAttribute
+                        }
+                      />
+                  </div>
+                )}
+              </div>
             </OpenLinksButton>
           </RightContainer>
         </NavbarInnerContainer>
