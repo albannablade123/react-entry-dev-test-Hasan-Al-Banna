@@ -97,6 +97,7 @@ export const AddToCartCircularButton = styled.button`
     border-width: 0px;
     cursor: pointer;
 
+
 `
 
 

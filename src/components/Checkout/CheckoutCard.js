@@ -15,7 +15,7 @@ import {
   ProductSpecificationTitle,
   SelectionContainer,
   ButtonAttribute,
-  ButtonColor1,
+  ButtonAttributeColor,
   ButtonSelected,
   PriceText,
 } from "../../styles/ProductItem.style";
@@ -69,7 +69,7 @@ export default class CheckoutCard extends Component {
           </PriceText>
           {this.props.product.attributes.map((attributeItem, outsideIndex) => {
             return attributeItem.name === "Color" ? (
-              <div>
+              <div key={outsideIndex}>
                 <ProductSpecificationTitle id={attributeItem.id}>
                   {attributeItem.name.toUpperCase()}
                 </ProductSpecificationTitle>
@@ -85,7 +85,7 @@ export default class CheckoutCard extends Component {
                         ?.id === choiceItem.id
                         ? "2px solid #5ECE7B"
                         : "#1D1F22",}}>
-                      <ButtonColor1
+                      <ButtonAttributeColor
                       onClick={() =>
                         this.props.handleChangeSelectedAttribute(
                           this.props.product.id,
@@ -107,7 +107,7 @@ export default class CheckoutCard extends Component {
                 </SelectionContainer>
               </div>
             ) : (
-              <div>
+              <div key={outsideIndex}>
                 <ProductSpecificationTitle id={attributeItem.id}>
                   {attributeItem.name.toUpperCase()}
                 </ProductSpecificationTitle>

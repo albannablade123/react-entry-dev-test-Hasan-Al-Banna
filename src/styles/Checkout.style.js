@@ -82,12 +82,12 @@ export const ImageCartPreview = styled.div`
 `;
 
 export const CartDropdownContainer = styled.div`
-  width: 325px;
+  width: 350px;
  max-height: 677px;
   border-radius: 0px;
   padding: 32px, 16px, 32px, 16px;
   background-color: white;
-  left: 1043px;
+  left: 1030px;
   display: inline-block;
   position:absolute;
   top: 80px;
@@ -128,7 +128,7 @@ export const CartDropdownCard = styled.div`
   height: 190px;
   display: flex;
   margin-bottom: 32px;
-  overflow: overlay;
+  overflow: auto;
 `
 
 export const CartCardLeftContainer = styled.div`
@@ -225,14 +225,15 @@ export const ButtonAttribute = styled.button`
 
 `
 
-export const ButtonColor1 = styled.button`
-    width: 14px;
-    height: 14px;
-    font-family: Source Sans Pro;
-    font-weight: 400;
-    margin-right: 8px;
+export const ButtonAttributeColorDropdown = styled.button`
+    width: 16px;
+    height: 16px;
     border: transparent;
     cursor: pointer;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
 `
 
 export const TotalContainer = styled.div`
@@ -309,3 +310,15 @@ export const CartContentContainerEmpty = styled.div`
   margin-right: auto;
   text-align: center;
 `;
+
+export const SelectionContainerDropdown = styled.div`
+    display: flex;
+    margin-bottom: 24px;
+`
+
+export const ButtonSelectedDropdown = styled.div`
+    position: relative;
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+`

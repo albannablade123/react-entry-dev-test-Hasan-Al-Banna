@@ -15,20 +15,29 @@ import {
   CartContentContainerEmpty,
 } from "../../../styles/Checkout.style";
 
-
 export default class CheckoutDropdown extends Component {
+
+
   render() {
     return (
-      <CartDropdownContainer onMouseLeave={() => {this.props.handleCloseCartNavbar()}}>
-        <CartContentContainer
-        >
-          <div style={{ display: "flex", marginBottom: "32px", height: "26px"}}>
-            <CartDropdownTitle>My Bag, <b>{this.props.cart.length} items{" "}</b> </CartDropdownTitle>
+      <CartDropdownContainer
+        onMouseLeave={() => {
+          this.props.handleCloseCartNavbar();
+        }}
+      >
+        <CartContentContainer>
+          <div
+            style={{ display: "flex", marginBottom: "32px", height: "26px" }}
+          >
+            <CartDropdownTitle>
+              My Bag, <b>{this.props.cart.length} items </b>{" "}
+            </CartDropdownTitle>
           </div>
           {this.props.cart.length > 0 ? (
             <CartItemsContainer>
               {this.props.cart.map((item, index) => (
                 <CheckoutItem
+                  key={index}
                   handleDecrementProductQuantity={
                     this.props.handleDecrementProductQuantity
                   }
@@ -38,9 +47,9 @@ export default class CheckoutDropdown extends Component {
                   handleIncrementProductQuantity={
                     this.props.handleIncrementProductQuantity
                   }
-                  key={index}
                   cartItem={item}
                   currency={this.props.currency}
+                  handleCloseCartNavbar={this.props.handleCloseCartNavbar}
                 />
               ))}
             </CartItemsContainer>
@@ -69,9 +78,13 @@ export default class CheckoutDropdown extends Component {
           >
             VIEW BAG
           </DropdownButton>
-          <Link to={"checkout"} style={{ textDecoration: "none" }} >
+          <Link to={"checkout"} style={{ textDecoration: "none" }}>
             <DropdownButton
-            onClick={() => {this.props.handleCloseCartNavbar()}}
+              onClick={() => {
+                this.props.handleCloseCartNavbar();
+              }}
+
+              disabled={this.props.cart.length === 0}
               style={{
                 cursor: "pointer",
                 marginRight: "12px",

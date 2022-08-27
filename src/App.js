@@ -1,9 +1,6 @@
 import "./App.css";
 import React, { Component } from "react";
-import Navbar from "./components/Navbar/Navbar";
-import Products from "./components/Products/Products";
-import ProductItem from "./components/Products/Product/ProductItem";
-import Checkout from "./components/Checkout/Checkout";
+import { Checkout, Navbar, Products, ProductItem } from "./components";
 import {
   GET_CATEGORIES,
   GET_PRODUCTS_BY_CATEGORY,
@@ -153,7 +150,7 @@ class App extends Component {
       client
         .query({
           query: GET_PRODUCTS_BY_CATEGORY,
-          variables: { category : this.state.category}
+          variables: { category: this.state.category },
         })
         .then((result) =>
           result.data.category.products.map((product) =>
@@ -191,16 +188,13 @@ class App extends Component {
   };
 
   getTotalQuantity = () => {
-
     if (!this.state.cart) {
       return 0;
     }
     let total = 0;
-    this.state.cart.forEach(
-      (item) => {
-        total += item.quantity;
-      }
-    );
+    this.state.cart.forEach((item) => {
+      total += item.quantity;
+    });
 
     return total;
   };
@@ -304,8 +298,6 @@ class App extends Component {
     outerIndex,
     indexItem
   ) => {
-
-    console.log(productId,newAttribute,outerIndex)
     const index = this.state.cart.findIndex((o) => o.id === productId);
     const tempCartArray = this.state.cart;
 
@@ -315,7 +307,6 @@ class App extends Component {
       ...tempCartArray[index],
       selectedAttributes: oldTempSelectedAttributes,
     };
-
     this.setState({
       cart: tempCartArray,
     });
@@ -359,6 +350,17 @@ class App extends Component {
                     category={this.state.category}
                     products={this.state.products}
                     currency={this.state.selectedCurrency}
+                  />
+                }
+              />
+              <Route
+                exact
+                path="/product/:id"
+                element={
+                  <ProductItem
+                    category={this.state.category}
+                    currency={this.state.selectedCurrency}
+                    handleAddToCart={this.handleAddToCart}
                   />
                 }
               />

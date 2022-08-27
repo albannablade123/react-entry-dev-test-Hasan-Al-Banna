@@ -105,7 +105,7 @@ export const ButtonAttribute = styled.button`
     text-align: center;
 `
 
-export const ButtonColor1 = styled.button`
+export const ButtonAttributeColor = styled.button`
     width: 32px;
     height: 32px;
     top: 50%;

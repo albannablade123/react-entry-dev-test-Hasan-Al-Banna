@@ -67,7 +67,7 @@ export class Navbar extends PureComponent {
           <LeftContainer>
             <NavbarLinkContainer selectedCategory={this.state.selectedCategory}>
               {this.state.categories.map((item, index) => (
-                <div
+                <div key={index}
                   style={{
                     borderBottomColor:
                       item === this.props.category ? "#5ECE7B" : "white",
@@ -112,7 +112,7 @@ export class Navbar extends PureComponent {
                     {this.props.currency.symbol}
                     <span
                       class="material-symbols-outlined"
-                      style={{ width: "2px" }}
+                      style={{ width: "1px" }}
                     >
                       expand_more
                     </span>

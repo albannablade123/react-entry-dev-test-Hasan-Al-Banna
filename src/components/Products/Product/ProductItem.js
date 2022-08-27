@@ -12,7 +12,7 @@ import {
   CartButton,
   SelectionContainer,
   ButtonAttribute,
-  ButtonColor1,
+  ButtonAttributeColor,
   ButtonSelected,
   PriceText,
   ProductDescriptionContainer,
@@ -20,12 +20,7 @@ import {
 import { useParams } from "react-router-dom";
 import parse from "html-react-parser";
 import { GET_PRODUCT_BY_ID } from "../../../GraphQl/Queries";
-import {
-  ApolloClient,
-  InMemoryCache,
-  HttpLink,
-  from,
-} from "@apollo/client";
+import { ApolloClient, InMemoryCache, HttpLink, from } from "@apollo/client";
 
 import { onError } from "@apollo/client/link/error";
 
@@ -146,12 +141,12 @@ class ProductItem extends Component {
   }
 
   render() {
-    console.log(this.state.product);
     return (
       <ProductItemContainer>
         <ImageGrid>
           {this.state.product.gallery.map((item, index) => (
             <ImagePreview
+              key={index}
               src={item}
               onClick={() => {
                 this.handleChangeDisplayImage(item, index);
@@ -165,7 +160,7 @@ class ProductItem extends Component {
           <ProductSubtitle>Running Short</ProductSubtitle>
           {this.state.product.attributes.map((attributeItem, outsideIndex) => {
             return attributeItem.name === "Color" ? (
-              <div>
+              <div key={outsideIndex}>
                 <ProductSpecificationTitle id={attributeItem.id}>
                   {attributeItem.name.toUpperCase()}
                 </ProductSpecificationTitle>
@@ -185,7 +180,7 @@ class ProductItem extends Component {
                             : "#1D1F22",
                       }}
                     >
-                      <ButtonColor1
+                      <ButtonAttributeColor
                         onClick={() =>
                           this.handleChangeProductSelectedAttribute(
                             outsideIndex,
@@ -196,7 +191,10 @@ class ProductItem extends Component {
                         style={{
                           cursor: "pointer",
                           backgroundColor: choiceItem.value,
-                          border: choiceItem.value === '#FFFFFF' ? "2px solid	#989898" : null,
+                          border:
+                            choiceItem.value === "#FFFFFF"
+                              ? "2px solid	#989898"
+                              : null,
                         }}
                       />
                     </ButtonSelected>
@@ -204,7 +202,7 @@ class ProductItem extends Component {
                 </SelectionContainer>
               </div>
             ) : (
-              <div>
+              <div key={outsideIndex}>
                 <ProductSpecificationTitle id={attributeItem.id}>
                   {attributeItem.name.toUpperCase()}
                 </ProductSpecificationTitle>
