@@ -41,6 +41,7 @@ export const CountButton = styled.button`
   background-color: white;
   border-width: 1px;
   margin-bottom: auto;
+  cursor: pointer;
 `;
 
 export const CounterText = styled.h2`
