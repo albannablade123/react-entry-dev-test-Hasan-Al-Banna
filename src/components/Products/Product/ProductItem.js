@@ -22,6 +22,8 @@ import parse from "html-react-parser";
 import { GET_PRODUCT_BY_ID } from "../../../GraphQl/Queries";
 import { ApolloClient, InMemoryCache, HttpLink, from } from "@apollo/client";
 
+import './style.css'
+
 import { onError } from "@apollo/client/link/error";
 
 function withParams(Component) {
@@ -157,7 +159,7 @@ class ProductItem extends Component {
         <ImageContainer src={this.state.product.displayedImage} />
         <ProductItemContent>
           <ProductTitle>{this.state.product.name}</ProductTitle>
-          <ProductSubtitle>Running Short</ProductSubtitle>
+          <ProductSubtitle>{this.state.product.brand}</ProductSubtitle>
           {this.state.product.attributes.map((attributeItem, outsideIndex) => {
             return attributeItem.name === "Color" ? (
               <div key={outsideIndex}>

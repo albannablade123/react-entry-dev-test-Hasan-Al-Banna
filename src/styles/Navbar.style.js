@@ -11,7 +11,7 @@ export const NavbarContainer = styled.nav`
 
 export const Background = styled.div`
   height: 1475px;
-  width: 1440px;
+  width: 100vw;
   left: 0%;
   position: absolute;
   backdrop-filter: blur(8px);
@@ -148,7 +148,6 @@ export const iconImage = styled.div``;
 
 export const DropdownContainer = styled.div`
   width: 10px;
-  float: left;
 `;
 
 export const CurrencyLi = styled.li`

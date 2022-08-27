@@ -57,6 +57,7 @@ class App extends Component {
       client
         .query({
           query: GET_CATEGORIES,
+
         })
         .then((result) =>
           result.data.categories.map(({ name }) =>
@@ -81,6 +82,7 @@ class App extends Component {
       client
         .query({
           query: GET_PRODUCTS_BY_CATEGORY,
+          variables: { category: this.state.category },
         })
         .then((result) =>
           result.data.category.products.map((product) =>

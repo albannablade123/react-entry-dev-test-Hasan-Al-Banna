@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import CheckoutItem from "./CheckoutDropdowntItem";
 
+import "./style.css";
+
 import {
   CartDropdownContainer,
   CartItemsContainer,
@@ -16,8 +18,6 @@ import {
 } from "../../../styles/Checkout.style";
 
 export default class CheckoutDropdown extends Component {
-
-
   render() {
     return (
       <CartDropdownContainer
@@ -74,16 +74,21 @@ export default class CheckoutDropdown extends Component {
               backgroundColor: "white",
               border: "2px solid #1D1F22",
               cursor: "pointer",
+              width: "47%",
             }}
           >
             VIEW BAG
           </DropdownButton>
-          <Link to={"checkout"} style={{ textDecoration: "none" }}>
+          <Link
+            style={{
+              width: "47%",
+            }}
+            to={"checkout"}
+          >
             <DropdownButton
               onClick={() => {
                 this.props.handleCloseCartNavbar();
               }}
-
               disabled={this.props.cart.length === 0}
               style={{
                 cursor: "pointer",

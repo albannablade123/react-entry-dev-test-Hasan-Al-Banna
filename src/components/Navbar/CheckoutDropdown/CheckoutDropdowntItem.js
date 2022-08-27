@@ -15,6 +15,8 @@ import {
   ButtonSelectedDropdown,
 } from "../../../styles/Checkout.style";
 
+import './style.css';
+
 export default class CheckoutItem extends Component {
   constructor(props) {
     super(props);
