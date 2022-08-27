@@ -8,6 +8,7 @@ import {
   CheckoutButton,
 } from "../../styles/Checkout.style";
 import CheckoutCard from "./CheckoutCard";
+import { Link} from "react-router-dom";
 
 export default class Checkout extends Component {
   render() {
@@ -61,7 +62,15 @@ export default class Checkout extends Component {
               </b>
             </CheckoutTotalTextNormal>
           </CheckoutTotalTextDiv>
-          <CheckoutButton>Order</CheckoutButton>
+          <Link to={"/"}>
+            <CheckoutButton
+              onClick={() => {
+                this.props.handleProcessOrder();
+              }}
+            >
+              Order
+            </CheckoutButton>
+          </Link>
         </CheckoutTotalContainer>
       </CheckoutContainer>
     );
