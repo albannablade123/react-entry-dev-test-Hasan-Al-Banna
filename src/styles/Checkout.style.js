@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 export const CheckoutContainer = styled.nav`
   /* height: ${(props) => (props.extendNavbar ? "100vh" : "80px")}; */
@@ -40,6 +41,7 @@ export const CountButton = styled.button`
   background-color: white;
   border-width: 1px;
   margin-bottom: auto;
+  cursor: pointer;
 `;
 
 export const CounterText = styled.h2`
@@ -82,23 +84,22 @@ export const ImageCartPreview = styled.div`
 `;
 
 export const CartDropdownContainer = styled.div`
-  width: 350px;
- max-height: 677px;
+  width: 400px;
+  max-height: 677px;
   border-radius: 0px;
   padding: 32px, 16px, 32px, 16px;
   background-color: white;
-  left: 1030px;
+  right: 0;
   display: inline-block;
-  position:absolute;
+  position: absolute;
   top: 80px;
   z-index: 100;
-
 `;
 
 export const CartItemsContainer = styled.div`
   background-color: white;
-  width: 293px;
-  height: 420px;
+  width: 100%;
+  height: 500px;
   align-items: center;
   text-align: center;
   margin-left: auto;
@@ -109,10 +110,16 @@ export const CartItemsContainer = styled.div`
 
 export const CartContentContainer = styled.div`
   background-color: white;
-  width: 293px;
- max-height: 538px;
+  width: 90%;
+  max-height: 538px;
   margin-left: auto;
   margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-height: 70vh;
+  overflow: auto;
 `;
 
 export const CartDropdownTitle = styled.h2`
@@ -120,36 +127,33 @@ export const CartDropdownTitle = styled.h2`
   font-size: 16px;
   text-align: left;
   margin-bottom: 32px;
-
 `;
 
 export const CartDropdownCard = styled.div`
-
   height: 190px;
   display: flex;
   margin-bottom: 32px;
-  overflow: auto;
-`
+`;
 
 export const CartCardLeftContainer = styled.div`
   background-color: white;
   width: 63%;
   height: 100%;
-`
+`;
 
 export const CartProductTitle = styled.h1`
   font-weight: 300;
   font-size: 16px;
   font-family: Raleway;
   text-align: left;
-`
+`;
 
 export const CartProductPrice = styled.h1`
   font-weight: 500;
   font-size: 16px;
   font-family: Raleway;
   text-align: left;
-`
+`;
 export const CountDropdownContainer = styled.div`
   width: 45px;
   height: 190px;
@@ -169,139 +173,137 @@ export const CountDropdownButton = styled.button`
   background-color: white;
   border-width: 1px;
   margin-bottom: auto;
+  cursor: pointer;
 `;
 
 export const ProductDropdownImage = styled.img`
   width: 121px;
   height: 190px;
-`
+`;
 
 export const DropdownButtonContainer = styled.div`
   display: flex;
   margin-left: 16.5px;
   padding-bottom: 20px;
   margin-right: 16.5px;
-`
+  vertical-align: center;
+  align-items: center;
+`;
 
 export const DropdownButton = styled.button`
-  width: 140px;
+  width: 110%;
   height: 40px;
   border-radius: 0px;
   font-weight: 600;
   font-family: Raleway;
-`
+`;
 
 export const ProductSpecificationTitle = styled.div`
-    font-family: Raleway;
-    font-size: 10px;
-    line-height: 77%;
-    font-weight: 400;
-    color: #1D1F22;
-    margin-bottom: 8px;
-    text-align: left;
-`
+  font-family: Raleway;
+  font-size: 10px;
+  line-height: 77%;
+  font-weight: 400;
+  color: #1d1f22;
+  margin-bottom: 8px;
+  text-align: left;
+`;
 
 export const SelectionContainer = styled.div`
-    display: flex;
-    margin-bottom: 8px;
-`
+  display: flex;
+  margin-bottom: 8px;
+`;
 
 export const ButtonAttribute = styled.button`
-    width: 100%;
-    height: 24px;
-    font-family: Source Sans Pro;
-    font-weight: 400;
-    font-size: 10px;
-    margin-right: 8px;
-    background-color: white;
-    border-width: 1px;
-    border-color: #1D1F22;
-    cursor:pointer;
-    text-align: center;
-    font-size: 0.6vw;
-    max-width: 30px;
-    max-height: 30px;
-    padding: 1px 1px;
-
-`
+  width: 100%;
+  height: 24px;
+  font-family: Source Sans Pro;
+  font-weight: 400;
+  font-size: 10px;
+  margin-right: 8px;
+  background-color: white;
+  border-width: 1px;
+  border-color: #1d1f22;
+  cursor: pointer;
+  text-align: center;
+  font-size: 0.6vw;
+  padding: 6px 2px;
+`;
 
 export const ButtonAttributeColorDropdown = styled.button`
-    width: 16px;
-    height: 16px;
-    border: transparent;
-    cursor: pointer;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    position: absolute;
-`
+  width: 16px;
+  height: 16px;
+  border: transparent;
+  cursor: pointer;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+`;
 
 export const TotalContainer = styled.div`
   display: flex;
   margin-left: 16px;
   margin-right: 16px;
   justify-content: space-between;
-`
+`;
 export const TotalHeader = styled.h2`
   font-family: Roboto;
   font-weight: 700;
   font-size: 16px;
-  color: #1D1F22;
+  color: #1d1f22;
   margin-right: auto;
-
-
-`
+`;
 
 export const TotalCount = styled.h2`
   font-family: Roboto;
   font-weight: 700;
   font-size: 16px;
-  color: #1D1F22;
-`
+  color: #1d1f22;
+`;
 
 export const CheckoutTotalContainer = styled.div`
   margin-top: 32px;
   width: 279px;
   height: 159px;
-`
+`;
 
 export const CheckoutTotalTextDiv = styled.div`
   display: flex;
-`
+`;
 
 export const CheckoutTotalTextBold = styled.h2`
   font-family: Raleway;
   font-weight: 700;
   font-size: 24px;
   line-height: 28px;
-`
+`;
 
 export const CheckoutTotalTextNormal = styled.h2`
   font-family: Raleway;
   font-weight: 400;
   font-size: 24px;
   line-height: 28px;
-`
+`;
 
 export const CheckoutButton = styled.button`
   border-radius: 0px;
   cursor: pointer;
-  background-color: #5ECE7B;
+  background-color: #5ece7b;
   width: 279px;
   height: 43px;
-  border: #5ECE7B;
+  border: #5ece7b;
   color: white;
-`
+`;
 
 export const ButtonImage = styled.button`
   width: 24px;
   height: 24px;
-  background-color: #1D1F22;
+  background-color: #1d1f22;
   position: absolute;
-  border: #1D1F22;
+  border: #1d1f22;
   color: white;
   cursor: pointer;
-`
+`;
 
 export const CartContentContainerEmpty = styled.div`
   background-color: white;
@@ -312,13 +314,13 @@ export const CartContentContainerEmpty = styled.div`
 `;
 
 export const SelectionContainerDropdown = styled.div`
-    display: flex;
-    margin-bottom: 24px;
-`
+  display: flex;
+  margin-bottom: 24px;
+`;
 
 export const ButtonSelectedDropdown = styled.div`
-    position: relative;
-    width: 20px;
-    height: 20px;
-    margin-right: 5px;
-`
+  position: relative;
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+`;

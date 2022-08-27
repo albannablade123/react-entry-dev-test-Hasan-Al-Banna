@@ -31,10 +31,6 @@ export default class ProductCard extends Component {
     });
   };
 
-  handleAddToCart = () => {
-    console.log("add to cart");
-  };
-
   getPriceValue() {
     let priceValue = this.props.price.find(
       (o) => o.currency.symbol === this.props.currency.symbol

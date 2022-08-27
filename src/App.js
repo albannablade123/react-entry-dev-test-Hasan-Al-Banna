@@ -57,6 +57,7 @@ class App extends Component {
       client
         .query({
           query: GET_CATEGORIES,
+
         })
         .then((result) =>
           result.data.categories.map(({ name }) =>
@@ -81,6 +82,7 @@ class App extends Component {
       client
         .query({
           query: GET_PRODUCTS_BY_CATEGORY,
+          variables: { category: this.state.category },
         })
         .then((result) =>
           result.data.category.products.map((product) =>
@@ -103,6 +105,16 @@ class App extends Component {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  handleProcessOrder = () => {
+    window.confirm("Confirm Order?")
+
+    this.setState({
+      ...this.state,
+      cart: [],
+    });
+    
   }
 
   setLoading = () => {
@@ -145,7 +157,6 @@ class App extends Component {
   componentDidUpdate(previousProps, prevState) {
     if (prevState.category !== this.state.category) {
       const tempProductsArray = [];
-      let queryTest;
 
       client
         .query({
@@ -233,17 +244,30 @@ class App extends Component {
 
   handleDecrementProductQuantity = (prevQuantity, productId) => {
     let tempProductArray = this.state.cart;
-    tempProductArray = tempProductArray.map((obj) => {
-      if (obj.id === productId && prevQuantity > 1) {
-        return { ...obj, quantity: prevQuantity - 1 };
-      }
-      return obj;
-    });
+
+    if (prevQuantity === 1) {
+      window.confirm("Remove product from cart?");
+      tempProductArray.splice(
+        tempProductArray.findIndex(function (i) {
+          return i.id === productId;
+        }),
+        1
+      );
+    } else {
+      tempProductArray = tempProductArray.map((obj) => {
+        if (obj.id === productId && prevQuantity > 1) {
+          return { ...obj, quantity: prevQuantity - 1 };
+        }
+        return obj;
+      });
+    }
 
     this.setState({
       ...this.state,
       cart: tempProductArray,
     });
+
+    
   };
 
   handleCurrencyChange = (newCurrency) => {
@@ -277,15 +301,12 @@ class App extends Component {
         ...this.state,
         cart: tempProductArray,
       });
-
-      console.log(tempProductArray);
     } else {
       newProduct = {
         ...newProduct,
         quantity: 1,
       };
 
-      console.log(newProduct);
       this.setState((prevState) => ({
         cart: [...prevState.cart, newProduct],
       }));
@@ -394,6 +415,7 @@ class App extends Component {
                     }
                     getTotal={this.getTotal}
                     getTotalQuantity={this.getTotalQuantity}
+                    handleProcessOrder={this.handleProcessOrder}
                   />
                 }
               />

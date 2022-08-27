@@ -30,7 +30,7 @@ export default class Dropdown extends Component {
           padding: "0px 0px",
           margin: "0px 0px",
           top: "65px",
-          left: "1200px",
+          right: "2%",
           position: "absolute",
           alignContent: "center",
           verticalAlign: "middle",
